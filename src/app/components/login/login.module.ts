@@ -10,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthService } from 'src/app/services/auth.service';
-import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [LoginComponent],
   imports: [
@@ -20,8 +19,7 @@ import { ToastrModule } from 'ngx-toastr';
     MatCardModule,
     MatIconModule,
     MatButtonModule,
-    MatToolbarModule,
-    ToastrModule.forRoot()
+    MatToolbarModule
   ],
   providers:[AuthService]
 })

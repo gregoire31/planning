@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -20,27 +21,27 @@ export class LoginComponent implements OnInit {
     password: [null]
   });
   public logginPage : boolean = true
-  constructor(private fb: FormBuilder, private authService : AuthService) { }
+  constructor(private fb: FormBuilder, private authService : AuthService, private toastService : ToastrService) { }
 
   ngOnInit(): void {
   }
   toggleLogginPageButton(){
     this.logginPage = !this.logginPage
   }
-  // onSubmit() {
-  //   console.log(this.loginForm.value)
-  //   this.authService.connect(this.loginForm.value).subscribe(data => {
-  //     console.log(data)
-  //   })
-  // }
+
   onSubmitRegister(){
-    this.authService.createUser(this.registerForm.value).subscribe(data => {
-      console.log('merde')
+    this.authService.signUp(this.registerForm.value).subscribe(() => {
+      this.toastService.success('Utilisateur enregistré avec succés')
+      this.toggleLogginPageButton()
     })
   }
 
   onSubmitLogin(){
-
+    this.authService.signIn(this.loginForm.value).subscribe((res:any) => {
+      if (res['token']) {
+        localStorage.setItem('token', res['token']);
+      }
+    })
   }
 
   getButton(){

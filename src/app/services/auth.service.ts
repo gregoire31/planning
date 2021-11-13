@@ -9,11 +9,11 @@ export class AuthService {
     return this.http.get('http://www.localhost:3000/getCourses');
   }
 
-  // connect(credentials:any){
-  //   return this.http.post('http://www.localhost:3000/api/users/createUser', credentials)
-  // }
-  createUser(user:any){
-    return this.http.post('http://www.localhost:3000/api/users/createUser', user)
+  signIn(credentials:any){
+    return this.http.post('http://www.localhost:3000/api/users/signIn', credentials)
+  }
+  signUp(user:any){
+    return this.http.post('http://www.localhost:3000/api/users/signUp', user)
   }
 
 }
