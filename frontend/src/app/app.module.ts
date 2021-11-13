@@ -9,6 +9,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ToastrModule } from 'ngx-toastr';
 import { ErrorInterceptor } from 'src/_helpers/error.interceptor';
 import { AuthInterceptorService } from 'src/_helpers/auth-interceptor.service';
+import { PlanningModule } from './components/planning/planning.module';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -18,6 +20,7 @@ import { AuthInterceptorService } from 'src/_helpers/auth-interceptor.service';
     AppRoutingModule,
     HttpClientModule,
     LoginModule,
+    PlanningModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],

@@ -2,10 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { catchError, filter, take, switchMap } from "rxjs/operators";
 import { Observable, throwError } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
 
+  constructor(private authService: AuthService, private toastr: ToastrService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     console.log("Interception In Progress");
@@ -19,7 +22,8 @@ export class AuthInterceptorService implements HttpInterceptor {
            catchError((error: HttpErrorResponse) => {
                 //401 UNAUTHORIZED
                 if (error && error.status === 401) {
-                    console.log("ERROR 401 UNAUTHORIZED")
+                    this.authService.logOut()
+                    this.toastr.error('Token expiré')
                 }
                 const err = error.error.message || error.statusText;
                 return throwError(error);

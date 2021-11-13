@@ -6,6 +6,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 
 const users = require('./routes/users')
+const massages = require('./routes/massages')
 const expressJWT = require('express-jwt');
 let secret = 'some_secret';
 
@@ -31,6 +32,7 @@ app.use(expressJWT({ secret: secret, algorithms: ['HS256'] })
 
 //route
 app.use('/api/users', users);
+app.use('/api/massages',massages)
 
 // app.get('/getCourses', async(req,res) => {
 //     const getAllCourses = await findAllCourses()

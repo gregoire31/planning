@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
     username: [null],
     password: [null]
   });
+
   public registerForm = this.fb.group({
     nom: [null],
     prenom: [null],
@@ -20,11 +21,14 @@ export class LoginComponent implements OnInit {
     numeroTelephone:[null],
     password: [null]
   });
+
   public logginPage : boolean = true
+
   constructor(private fb: FormBuilder, private authService : AuthService, private toastService : ToastrService) { }
 
   ngOnInit(): void {
   }
+
   toggleLogginPageButton(){
     this.logginPage = !this.logginPage
   }
@@ -37,11 +41,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmitLogin(){
-    this.authService.signIn(this.loginForm.value).subscribe((res:any) => {
-      if (res['token']) {
-        localStorage.setItem('token', res['token']);
-      }
-    })
+    this.authService.signIn(this.loginForm.value)
   }
 
   getButton(){
