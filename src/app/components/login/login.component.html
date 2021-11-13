@@ -1,0 +1,56 @@
+<div class="login-container">
+  <div class="login-content">
+    <mat-toolbar class="login-toolbar" color="primary">My App</mat-toolbar>
+    <mat-card *ngIf="logginPage">
+      <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmitLogin()">
+        <mat-form-field>
+          <mat-icon matPrefix>person_outline</mat-icon>
+          <input autofocus type="text" matInput placeholder="Username" formControlName="username">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-icon matPrefix>lock_outline</mat-icon>
+          <input type="password" autocomplete="false" matInput placeholder="Password" formControlName="password">
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="primary">Login</button>
+      </form>
+    </mat-card>
+    <mat-card *ngIf="!logginPage">
+      <form [formGroup]="registerForm" novalidate (ngSubmit)="onSubmitRegister()">
+        <mat-form-field>
+          <mat-icon matPrefix>person_outline</mat-icon>
+          <input autofocus type="text" matInput placeholder="Nom" formControlName="nom">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-icon matPrefix>person_outline</mat-icon>
+          <input autofocus type="text" matInput placeholder="Prenom" formControlName="prenom">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-icon matPrefix>person_outline</mat-icon>
+          <input autofocus type="text" matInput placeholder="Adresse" formControlName="adresse">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-icon matPrefix>person_outline</mat-icon>
+          <input autofocus type="email" matInput placeholder="Email" formControlName="email">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-icon matPrefix>person_outline</mat-icon>
+          <input autofocus type="text" matInput placeholder="Numéro de téléphone" formControlName="numeroTelephone">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-icon matPrefix>lock_outline</mat-icon>
+          <input type="password" autocomplete="false" matInput placeholder="Password" formControlName="password">
+        </mat-form-field>
+
+        <button type="submit" mat-raised-button color="primary">Register</button>
+      </form>
+    </mat-card>
+    <button mat-raised-button (click)="toggleLogginPageButton()" color="accent">{{getButton()}}</button>
+  </div>
+</div>
