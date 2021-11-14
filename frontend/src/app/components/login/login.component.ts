@@ -9,7 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class LoginComponent implements OnInit {
   public loginForm = this.fb.group({
-    username: [null],
+    email: [null],
     password: [null]
   });
 

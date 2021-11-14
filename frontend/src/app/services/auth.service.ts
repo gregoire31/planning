@@ -22,7 +22,7 @@ export class AuthService {
     })
   }
 
-  signUp(user:any){
+  signUp(user:User){
     return this.http.post('http://www.localhost:3000/api/users/signUp', user)
   }
 

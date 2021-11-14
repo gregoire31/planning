@@ -58,7 +58,7 @@ function validateUser(user){
 
 async function signIn(user){
     return await User.find({
-        email:user.username,
+        email:user.email,
         password:user.password
     })
 }

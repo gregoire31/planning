@@ -1,1 +1,18 @@
-<button (click)="getMassages()" mat-raised-button color="primary">fetch</button>
+<div id="listCards">
+  <mat-card [ngClass]="massage._id === massageSelected._id ? 'colorSelected' : ''  " *ngFor="let massage of massages" class="example-card">
+    <mat-card-header>
+      <mat-card-title>{{massage.nom}}</mat-card-title>
+    </mat-card-header>
+    <img mat-card-image src="{{massage.image}}" alt="Photo of a Shiba Inu">
+    <mat-card-content>
+      <p>
+        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+        bred for hunting.
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button (click)="selectMassage(massage)" mat-raised-button color="primary">Sélectionnez</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

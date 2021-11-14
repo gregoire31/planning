@@ -1,4 +1,4 @@
-const {User, validate, signIn, signUp} = require('../models/user')
+const {signIn, signUp} = require('../models/user')
 const express = require('express')
 const router = express.Router()
 

@@ -3,5 +3,8 @@ export interface Massage {
   prix: Number;
   personnelRequis: Number;
   duree : Number;
-  _id: String
+  _id: string;
+  image?: string;
+  cols?:Number;
+  rows?:Number
 }

@@ -11,5 +11,9 @@ export class MassageService {
     return this.http.get<Massage[]>('http://www.localhost:3000/api/massages/massages');
   }
 
+  getMassage(id:string){
+    return this.http.get<Massage>(`http://www.localhost:3000/api/massages/massage/${id}`);
+  }
+
 
 }
