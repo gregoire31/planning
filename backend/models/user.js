@@ -63,21 +63,20 @@ async function signIn(user){
     })
 }
 
-
-async function emaileverRegistered(email){
+async function getUserByEmail(email){
     return await User.find({
         email:email
     })
 }
 
+
 async function signUp(user){
     const validateData = validateUser(user)
     if(validateData.error){
-        console.log(validateData.error.message)
         return validateData.error.message
 
     }
-    const emailEverRegistered = await emaileverRegistered(user.email)
+    const emailEverRegistered = await getUserByEmail(user.email)
     if(emailEverRegistered.length){
         return 'email déja enregistré'
     }
@@ -99,3 +98,4 @@ exports.User = User
 exports.validate = validateUser
 exports.signIn = signIn
 exports.signUp = signUp
+exports.getUserByEmail = getUserByEmail

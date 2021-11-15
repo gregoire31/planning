@@ -10,10 +10,11 @@ import { ToastrModule } from 'ngx-toastr';
 import { ErrorInterceptor } from 'src/_helpers/error.interceptor';
 import { AuthInterceptorService } from 'src/_helpers/auth-interceptor.service';
 import { PlanningModule } from './components/planning/planning.module';
+import { MenuModule } from './components/menu/menu.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,7 +23,8 @@ import { PlanningModule } from './components/planning/planning.module';
     LoginModule,
     PlanningModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    MenuModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],

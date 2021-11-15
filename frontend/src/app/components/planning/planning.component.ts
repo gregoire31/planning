@@ -3,6 +3,7 @@ import { MassageService } from 'src/app/services/massage.service';
 import { Massage } from 'src/app/models/massage.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-planning',
@@ -12,11 +13,11 @@ import { AuthService } from 'src/app/services/auth.service';
 export class PlanningComponent implements OnInit {
   public massages = <Massage[]>[]
   public massageSelected = <Massage>{}
-  public user = <User> {}
+  // private user = new BehaviorSubject(<User>{});
   constructor(private massageService : MassageService, private authService : AuthService) { }
 
   ngOnInit(): void {
-    this.user = this.authService.getUser()
+    // this.user = this.authService.getUser()
     this.massageService.getAllMassages().subscribe(massages => {
       massages.forEach(massage => {
         massage.image = `/assets/${massage.nom}.png`

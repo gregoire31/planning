@@ -1,4 +1,4 @@
-const {signIn, signUp} = require('../models/user')
+const {signIn, signUp, getUserByEmail} = require('../models/user')
 const express = require('express')
 const router = express.Router()
 
@@ -12,7 +12,6 @@ router.post('/signUp',async(req,res)=> {
     }else{
         res.status(200).json({message:'OK'});
     }
-    
 })
 
 
@@ -20,6 +19,7 @@ router.post('/signIn',async(req,res)=> {
     const userData = req.body
     const user = await signIn(userData)
     if(user.length){
+        delete userData.password
         let token = jwt.sign(userData, secret, { expiresIn: '30s'})
         res.status(200).json({"token": token,"user":user});
     }
@@ -27,7 +27,17 @@ router.post('/signIn',async(req,res)=> {
         res.status(400).send('Erreur, vérifiez vos identifiants');
     }
 
+})
 
+router.get('/checkToken/:token',async(req,res) => {
+    const token = req.params.token
+    const decodedToken = jwt.decode(token)
+    if(decodedToken){
+        const user = await getUserByEmail(decodedToken.email)
+        res.status(200).send(user)
+    }else{
+        res.status(401).json({data:'error'})
+    }
 })
 
 module.exports = router
