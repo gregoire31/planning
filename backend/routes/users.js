@@ -29,10 +29,10 @@ router.post('/signIn',async(req,res)=> {
 
 })
 
-router.get('/checkToken/:token',async(req,res) => {
-    const token = req.params.token
+router.post('/checkToken',async(req,res) => {
+    const token = req.body.token
     const decodedToken = jwt.decode(token)
-    if(decodedToken){
+    if(decodedToken.exp > decodedToken.iat){
         const user = await getUserByEmail(decodedToken.email)
         res.status(200).send(user)
     }else{

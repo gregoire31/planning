@@ -19,7 +19,6 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      console.log('ça passe là')
     const user = this.authService.getUser()
     if (Object.keys(user).length === 0) {
       this.toastr.error('Vous devez être connecter pour aller sur cette page')

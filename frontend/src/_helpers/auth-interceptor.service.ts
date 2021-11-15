@@ -21,10 +21,11 @@ export class AuthInterceptorService implements HttpInterceptor {
         .pipe(
            catchError((error: HttpErrorResponse) => {
                 //401 UNAUTHORIZED
-                if (error && error.status === 401) {
-                    this.authService.logOut()
-                    this.toastr.error('Token expiré')
+                const token = localStorage.getItem('token');
+                if (error && error.status === 401 && token) {
+                  this.toastr.error('Token expiré')
                 }
+                this.authService.logOut()
                 const err = error.error.message || error.statusText;
                 return throwError(error);
            })
