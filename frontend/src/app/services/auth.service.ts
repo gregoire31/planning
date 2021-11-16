@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   checkToken(token:string){
-    return this.http.post<User[]>(`http://www.localhost:3000/api/users/checkToken`,{token:token});
+    return this.http.get<User[]>(`http://www.localhost:3000/api/users/checkToken/${token}`);
   }
 
   logOut(){

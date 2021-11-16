@@ -24,9 +24,9 @@ app.use(cors());
 app.use(expressJWT({ secret: secret, algorithms: ['HS256'] })
     .unless(
         { path: [
-            '/api/users/signIn',
+            /^\/api\/users\/signIn/,
             '/api/users/signUp',
-            '/api/users/checkToken'
+            /^\/api\/users\/checkToken\/.*/
         ]}
     )  
 );
