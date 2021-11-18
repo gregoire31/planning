@@ -24,7 +24,7 @@ table {
 
 td, th {
   border: 1px solid #dddddd;
-  text-align: left;
+  text-align: center;
   padding: 8px;
 }
 
@@ -34,4 +34,19 @@ tr:nth-child(even) {
 
 .red{
   background-color: red;
+  color:white
+}
+.pointer{
+  cursor: pointer;
+  font-size: 36px;
+}
+.headTable{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 1em 0 1em 0;
+}
+
+.mat-header-cell{
+  text-align: center !important
 }

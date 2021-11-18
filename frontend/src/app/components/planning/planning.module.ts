@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
 import { ReservationService } from 'src/app/services/reservation.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [PlanningComponent],
@@ -13,7 +14,8 @@ import { ReservationService } from 'src/app/services/reservation.service';
     CommonModule,
     MatButtonModule,
     MatCardModule,
-    MatTableModule
+    MatTableModule,
+    MatIconModule
   ],
   providers:[MassageService, ReservationService]
 })

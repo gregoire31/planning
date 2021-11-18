@@ -22,7 +22,7 @@ export class PlanningComponent implements OnInit {
   public headerScheduleString: string[] = []
   public rowsSchedule: any[] = []
   public reservations : Reservation[] = []
-
+  public incrementNumberWeek : number = 0
   constructor(
     private massageService : MassageService,
     private reservationService : ReservationService,
@@ -33,34 +33,9 @@ export class PlanningComponent implements OnInit {
 
     this.reservationService.getAllReservations().subscribe(reservations => {
       this.reservations = reservations
-      console.log(this.reservations)
     })
-    moment.locale('fr');
-    for(let i = 0; i < 6; i++){
-      const actualMomentDay = moment(moment().startOf('week')).add(i,'day').format('L')
-      const actualDay= moment(moment().startOf('week')).add(i,'day').format('LLLL').split(" ")
-      const dayConcat = `${actualDay[0]} ${actualDay[1]}`
-      this.headerSchedule.push({label:dayConcat , value:actualMomentDay})
-    }
-    for(let i = 0; i < 9; i++){
-      let hour = i+9
-      let pouet = {}
-      let bet:any = {}
-      this.headerSchedule.forEach(header => {
-        bet[header.label]=hour
-        pouet = {...bet}
-      });
-      this.rowsSchedule.push(pouet)
-    }
-    this.headerScheduleString = this.headerSchedule.map(header => header.label)
+    this.initScheduleData(this.incrementNumberWeek)
 
-    // const actualTuesday= moment(actualMonday).add(1,'day')
-    // const tuesdayArray = moment(actualTuesday).format('LLLL').split(" ")
-    // const tuesdayConcat = `${tuesdayArray[0]} ${tuesdayArray[1]}`
-
-    // this.headerSchedule.push({label:mondayConcat, value:actualMonday}, {label: tuesdayConcat, value:actualTuesday})
-    // this.rowsSchedule.push({label:mondayConcat, value:actualMonday}, {label: tuesdayConcat, value:actualTuesday})
-    // this.user = this.authService.getUser()
     this.massageService.getAllMassages().subscribe((massages:Massage[]) => {
       massages.forEach(massage => {
         massage.image = `/assets/${massage.nom}.png`
@@ -68,6 +43,19 @@ export class PlanningComponent implements OnInit {
       this.massages = massages
     })
   }
+
+  public incrementWeek(){
+    this.incrementNumberWeek = this.incrementNumberWeek+1
+    this.initScheduleData(this.incrementNumberWeek)
+  }
+
+  public decrementWeek(){
+    if(this.incrementNumberWeek > 0){
+      this.incrementNumberWeek = this.incrementNumberWeek-1
+      this.initScheduleData(this.incrementNumberWeek)
+    }
+  }
+
   saveReservation(element:any){
 
     let reservationToSave : Reservation = {
@@ -89,6 +77,34 @@ export class PlanningComponent implements OnInit {
     this.massageSelected = massage
   }
 
+  initScheduleData(weekFrom:number){
+    this.headerSchedule = []
+    this.rowsSchedule = []
+    this.headerScheduleString = []
+    moment.locale('fr');
+    let numberDayFrom : number = weekFrom * 7
+    for(let i = 0; i < 6; i++){
+      const actualMomentDay = moment(moment().startOf('week')).add((i+numberDayFrom),'day').format('L')
+      const actualDayDateMoment = moment(moment().startOf('week')).add((i+numberDayFrom),'day').format('LLLL')
+      const actualDay= moment(moment().startOf('week')).add((i+numberDayFrom),'day').format('LLLL').split(" ")
+      const dayConcat = `${actualDay[0]} ${actualDay[1]} ${actualDay[2]}`
+      this.headerSchedule.push({label:dayConcat , value:actualMomentDay, valueDate : actualDayDateMoment})
+    }
+    for(let i = 0; i < 9; i++){
+      let hour = i+9
+      let rowScheduleValue:any = {}
+      this.headerSchedule.forEach(header => {
+        rowScheduleValue[header.label]=hour
+      });
+      this.rowsSchedule.push(rowScheduleValue)
+    }
+    this.headerScheduleString = this.headerSchedule.map(header => header.label)
+  }
+
+  getWeek(date:any) : string{
+    return moment(date).format('LL')
+  }
+
   checkifOnePropertyisUndefined(objectToCheck:any) : boolean{
     let hasPropertyUndefined:boolean = false
     const objectKeys = Object.keys(objectToCheck)
@@ -100,11 +116,11 @@ export class PlanningComponent implements OnInit {
     return hasPropertyUndefined
   }
 
-  checkIfcreneauIsReserved(creneau:any): boolean{
-    let isReserved : boolean = false
+  checkIfTimeSlotAvailable(creneau:any): boolean{
+    let isReserved : boolean = true
     this.reservations.forEach(reservation => {
       if(reservation.creneau === creneau[0] && reservation.date === creneau[1]){
-        isReserved = true
+        isReserved = false
       }
     });
     return isReserved
