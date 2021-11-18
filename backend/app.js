@@ -7,6 +7,7 @@ const mongoose = require('mongoose')
 
 const users = require('./routes/users')
 const massages = require('./routes/massages')
+const reservations = require('./routes/reservations')
 const expressJWT = require('express-jwt');
 let secret = 'some_secret';
 
@@ -34,5 +35,5 @@ app.use(expressJWT({ secret: secret, algorithms: ['HS256'] })
 //route
 app.use('/api/users', users);
 app.use('/api/massages',massages)
-
+app.use('/api/reservations',reservations)
 app.listen(3000, () => console.log('listen on port 3000'))

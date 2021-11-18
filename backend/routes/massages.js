@@ -13,6 +13,4 @@ router.get('/massage/:id',async(req,res)=> {
     res.status(200).json(massages)
 })
 
-
-
 module.exports = router

@@ -11,7 +11,7 @@ export class AuthInterceptorService implements HttpInterceptor {
   constructor(private authService: AuthService, private toastr: ToastrService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
-    console.log("Interception In Progress");
+
     const token: string | null = localStorage.getItem('token');
     req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + token) });
     req = req.clone({ headers: req.headers.set('Content-Type', 'application/json') });
@@ -20,12 +20,11 @@ export class AuthInterceptorService implements HttpInterceptor {
     return next.handle(req)
         .pipe(
            catchError((error: HttpErrorResponse) => {
-                //401 UNAUTHORIZED
                 const token = localStorage.getItem('token');
                 if (error && error.status === 401 && token) {
                   this.toastr.error('Token expiré')
+                  this.authService.logOut()
                 }
-                this.authService.logOut()
                 const err = error.error.message || error.statusText;
                 return throwError(error);
            })

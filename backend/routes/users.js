@@ -20,13 +20,12 @@ router.post('/signIn',async(req,res)=> {
     const user = await signIn(userData)
     if(user.length){
         delete userData.password
-        let token = jwt.sign(userData, secret, { expiresIn: '30s'})
+        let token = jwt.sign(userData, secret, { expiresIn: '3000s'})
         res.status(200).json({"token": token,"user":user});
     }
     else{
         res.status(400).send('Erreur, vérifiez vos identifiants');
     }
-
 })
 
 router.get('/checkToken/:token',async(req,res) => {
