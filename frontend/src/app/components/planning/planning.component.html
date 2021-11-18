@@ -16,50 +16,5 @@
     </mat-card-actions>
   </mat-card>
 </div>
-<div class="headTable">
-  <mat-icon (click)="decrementWeek()" class="pointer">chevron_left</mat-icon>
-  <span> Semaine du  {{ getWeek(headerSchedule[0].valueDate) }}</span>
-  <mat-icon (click)="incrementWeek()" class="pointer">chevron_right</mat-icon>
-</div>
 
-<table mat-table [dataSource]="rowsSchedule" class="mat-elevation-z8">
-
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
-  <!-- Position Column -->
-  <ng-container matColumnDef="{{headerScheduleString[0]}}">
-    <th mat-header-cell *matHeaderCellDef> {{headerScheduleString[0]}} </th>
-    <td [ngClass]="checkIfTimeSlotAvailable([element[headerScheduleString[0]], headerSchedule[0].value]) ? '' : 'red'" (click)="saveReservation([element[headerScheduleString[0]], headerSchedule[0].value])" mat-cell *matCellDef="let element"> {{element[headerScheduleString[0]]}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="{{headerScheduleString[1]}}">
-    <th mat-header-cell *matHeaderCellDef> {{headerScheduleString[1]}} </th>
-    <td [ngClass]="checkIfTimeSlotAvailable([element[headerScheduleString[1]], headerSchedule[1].value]) ? '' : 'red'" (click)="saveReservation([element[headerScheduleString[1]], headerSchedule[1].value])" mat-cell *matCellDef="let element"> {{element[headerScheduleString[1]]}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="{{headerScheduleString[2]}}">
-    <th mat-header-cell *matHeaderCellDef> {{headerScheduleString[2]}} </th>
-    <td [ngClass]="checkIfTimeSlotAvailable([element[headerScheduleString[2]], headerSchedule[2].value]) ? '' : 'red'" (click)="saveReservation([element[headerScheduleString[2]], headerSchedule[2].value])" mat-cell *matCellDef="let element"> {{element[headerScheduleString[2]]}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="{{headerScheduleString[3]}}">
-    <th mat-header-cell *matHeaderCellDef> {{headerScheduleString[3]}} </th>
-    <td [ngClass]="checkIfTimeSlotAvailable([element[headerScheduleString[3]], headerSchedule[3].value]) ? '' : 'red'" (click)="saveReservation([element[headerScheduleString[3]], headerSchedule[3].value])" mat-cell *matCellDef="let element"> {{element[headerScheduleString[3]]}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="{{headerScheduleString[4]}}">
-    <th mat-header-cell *matHeaderCellDef> {{headerScheduleString[4]}} </th>
-    <td [ngClass]="checkIfTimeSlotAvailable([element[headerScheduleString[4]], headerSchedule[4].value]) ? '' : 'red'" (click)="saveReservation([element[headerScheduleString[4]], headerSchedule[4].value])" mat-cell *matCellDef="let element"> {{element[headerScheduleString[4]]}} </td>
-  </ng-container>
-
-  <ng-container matColumnDef="{{headerScheduleString[5]}}">
-    <th mat-header-cell *matHeaderCellDef> {{headerScheduleString[5]}} </th>
-    <td [ngClass]="checkIfTimeSlotAvailable([element[headerScheduleString[5]], headerSchedule[5].value]) ? '' : 'red'" (click)="saveReservation([element[headerScheduleString[5]], headerSchedule[5].value])" mat-cell *matCellDef="let element"> {{element[headerScheduleString[5]]}} </td>
-  </ng-container>
-
-  <!-- Name Column -->
-
-  <tr mat-header-row *matHeaderRowDef="headerScheduleString"></tr>
-  <tr mat-row *matRowDef="let row; columns: headerScheduleString;"></tr>
-</table>
+<app-calendar [massageSelected]="massageSelected"></app-calendar>

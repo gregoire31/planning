@@ -11,10 +11,11 @@ import { ErrorInterceptor } from 'src/_helpers/error.interceptor';
 import { AuthInterceptorService } from 'src/_helpers/auth-interceptor.service';
 import { PlanningModule } from './components/planning/planning.module';
 import { MenuModule } from './components/menu/menu.module';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,

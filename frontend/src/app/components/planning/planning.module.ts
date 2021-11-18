@@ -4,9 +4,7 @@ import { PlanningComponent } from './planning.component';
 import { MassageService } from 'src/app/services/massage.service';
 import { MatButtonModule } from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
-import {MatTableModule} from '@angular/material/table';
-import { ReservationService } from 'src/app/services/reservation.service';
-import { MatIconModule } from '@angular/material/icon';
+import { CalendarModule } from '../calendar/calendar.module';
 
 @NgModule({
   declarations: [PlanningComponent],
@@ -14,9 +12,8 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
     MatButtonModule,
     MatCardModule,
-    MatTableModule,
-    MatIconModule
+    CalendarModule
   ],
-  providers:[MassageService, ReservationService]
+  providers:[MassageService]
 })
 export class PlanningModule { }
