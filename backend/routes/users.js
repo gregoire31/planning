@@ -1,12 +1,16 @@
-const {signIn, signUp, getUserByEmail} = require('../models/user')
+const { signUp, getUserByEmail} = require('../models/user')
 const express = require('express')
 const router = express.Router()
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const secret = process.env.SECRET_TOKEN;
 
 router.post('/signUp',async(req,res)=> {
-    const user =  await signUp(req.body)
+    const userParam = req.body
+    const salt = bcrypt.genSaltSync();
+    userParam.password = bcrypt.hashSync(userParam.password, salt);
+    const user =  await signUp(userParam)
     if(typeof(user) === 'string'){
         res.status(400).send(user);
     }else{
@@ -17,8 +21,13 @@ router.post('/signUp',async(req,res)=> {
 
 router.post('/signIn',async(req,res)=> {
     const userData = req.body
-    const user = await signIn(userData)
-    if(user.length){
+    const user = await getUserByEmail(userData.email)
+    if(user === null){
+        res.status(400).send('Erreur, vérifiez vos identifiants');
+        return
+    }
+    let passwordDecrypted = await bcrypt.compare(userData.password, user._doc.password)
+    if(passwordDecrypted){
         delete userData.password
         let token = jwt.sign(userData, secret, { expiresIn: '3000s'})
         res.status(200).json({"token": token,"user":user});

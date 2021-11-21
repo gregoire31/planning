@@ -56,19 +56,11 @@ function validateUser(user){
     return schema.validate(user)
 }
 
-async function signIn(user){
-    return await User.find({
-        email:user.email,
-        password:user.password
-    })
-}
-
 async function getUserByEmail(email){
-    return await User.find({
+    return await User.findOne({
         email:email
     })
 }
-
 
 async function signUp(user){
     const validateData = validateUser(user)
@@ -77,6 +69,7 @@ async function signUp(user){
 
     }
     const emailEverRegistered = await getUserByEmail(user.email)
+    console.log(emailEverRegistered)
     if(emailEverRegistered.length){
         return 'email déja enregistré'
     }
@@ -96,6 +89,5 @@ async function signUp(user){
 
 exports.User = User
 exports.validate = validateUser
-exports.signIn = signIn
 exports.signUp = signUp
 exports.getUserByEmail = getUserByEmail
