@@ -13,7 +13,7 @@ export class MenuComponent implements OnInit {
     const token = localStorage.getItem('token');
     if(!token || Object.keys(this.authService.getUser().value).length !==0) return
     this.authService.checkToken(token).subscribe((user)=> {
-      this.authService.user.next(user[0])
+      this.authService.user.next(user)
     })
 
   }
