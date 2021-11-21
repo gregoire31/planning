@@ -9,7 +9,9 @@ const users = require('./routes/users')
 const massages = require('./routes/massages')
 const reservations = require('./routes/reservations')
 const expressJWT = require('express-jwt');
-let secret = 'some_secret';
+require('dotenv').config();
+
+const secret = process.env.SECRET_TOKEN;
 
 mongoose
 .connect('mongodb://localhost/mongo-planning')

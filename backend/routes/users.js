@@ -1,9 +1,9 @@
 const {signIn, signUp, getUserByEmail} = require('../models/user')
 const express = require('express')
 const router = express.Router()
-
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
-let secret = 'some_secret';
+const secret = process.env.SECRET_TOKEN;
 
 router.post('/signUp',async(req,res)=> {
     const user =  await signUp(req.body)
