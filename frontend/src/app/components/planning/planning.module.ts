@@ -5,6 +5,7 @@ import { MassageService } from 'src/app/services/massage.service';
 import { MatButtonModule } from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { CalendarModule } from '../calendar/calendar.module';
+import { SocketService } from 'src/app/services/socket.service';
 
 @NgModule({
   declarations: [PlanningComponent],
@@ -14,6 +15,6 @@ import { CalendarModule } from '../calendar/calendar.module';
     MatCardModule,
     CalendarModule
   ],
-  providers:[MassageService]
+  providers:[MassageService, SocketService]
 })
 export class PlanningModule { }

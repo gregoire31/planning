@@ -1,6 +1,13 @@
 const express = require('express')
-const path = require('path')
 const app = express()
+const http = require('http');
+const server = http.createServer(app);
+const io = require("socket.io")(server,{
+    cors: true,
+    origin: ['*']
+})
+
+
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
@@ -33,8 +40,12 @@ app.use(expressJWT({ secret: secret, algorithms: ['HS256'] })
     )  
 );
 
+io.on('connection', (socket) => {
+    console.log('a user connected');
+  });
+
 //route
 app.use('/api/users', users);
 app.use('/api/massages',massages)
 app.use('/api/reservations',reservations)
-app.listen(3000, () => console.log('listen on port 3000'))
+server.listen(parseInt(process.env.PORT), () => console.log(`listen on port ${process.env.PORT}`))
