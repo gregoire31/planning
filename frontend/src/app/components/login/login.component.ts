@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
@@ -7,7 +7,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   public loginForm = this.fb.group({
     email: [null],
     password: [null]
@@ -25,9 +25,6 @@ export class LoginComponent implements OnInit {
   public logginPage : boolean = true
 
   constructor(private fb: FormBuilder, private authService : AuthService, private toastService : ToastrService) { }
-
-  ngOnInit(): void {
-  }
 
   toggleLogginPageButton(){
     this.logginPage = !this.logginPage

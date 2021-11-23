@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 @Injectable()
 export class SocketService {
   public socket = <Socket>{}
-  constructor() { }
+
   connect(){
     this.socket = io(environment.SOCKET_ENDPOINT)
   }

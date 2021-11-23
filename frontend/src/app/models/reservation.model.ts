@@ -1,6 +1,6 @@
 export interface Reservation {
-  iduser : String,
-  idMassage : String,
-  date : String,
-  creneau: Number,
+  iduser : string,
+  idMassage : string,
+  date : string,
+  creneau: number,
 }

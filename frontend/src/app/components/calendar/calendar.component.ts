@@ -65,12 +65,11 @@ export class CalendarComponent implements OnInit {
 
   checkifOnePropertyisUndefined(objectToCheck:any) : boolean{
     let hasPropertyUndefined:boolean = false
-    const objectKeys = Object.keys(objectToCheck)
-    objectKeys.forEach(key => {
+    for(let key in objectToCheck) {
       if(objectToCheck[key] === undefined){
         hasPropertyUndefined = true
       }
-    });
+    }
     return hasPropertyUndefined
   }
 

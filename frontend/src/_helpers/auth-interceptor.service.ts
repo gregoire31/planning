@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
-import { catchError, filter, take, switchMap } from "rxjs/operators";
-import { Observable, throwError } from 'rxjs';
+import { HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
+import { catchError } from "rxjs/operators";
+import { throwError } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -20,12 +20,10 @@ export class AuthInterceptorService implements HttpInterceptor {
     return next.handle(req)
         .pipe(
            catchError((error: HttpErrorResponse) => {
-                const token = localStorage.getItem('token');
                 if (error && error.status === 401 && token) {
                   this.toastr.error('Token expiré')
                   this.authService.logOut()
                 }
-                const err = error.error.message || error.statusText;
                 return throwError(error);
            })
         );

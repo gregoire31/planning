@@ -1,10 +1,10 @@
 export interface Massage {
   nom: string;
-  prix: Number;
-  personnelRequis: Number;
-  duree : Number;
+  prix: number;
+  personnelRequis: number;
+  duree : number;
   _id: string;
   image?: string;
-  cols?:Number;
-  rows?:Number
+  cols?:number;
+  rows?:number
 }
