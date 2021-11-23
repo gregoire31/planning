@@ -57,7 +57,7 @@ function validateUser(user){
 }
 
 async function getUserByEmail(email){
-    return await User.findOne({
+    return User.findOne({
         email:email
     })
 }
@@ -69,7 +69,6 @@ async function signUp(user){
 
     }
     const emailEverRegistered = await getUserByEmail(user.email)
-    console.log(emailEverRegistered)
     if(emailEverRegistered.length){
         return 'email déja enregistré'
     }
@@ -83,8 +82,7 @@ async function signUp(user){
         numeroTelephone,
         password
     })
-    return await newUser.save()
-    // return await User.save()
+    return newUser.save()
 }
 
 exports.User = User

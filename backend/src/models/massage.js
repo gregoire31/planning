@@ -11,12 +11,12 @@ const massageSchema = new mongoose.Schema({
 const Massage = mongoose.model('Massage',massageSchema);
 
 
-async function getAllMassages(user){
-    return await Massage.find()
+async function getAllMassages(){
+    return Massage.find()
 }
 
 async function getMessage(id){
-    return await Massage.findById(id)
+    return Massage.findById(id)
 }
 
 

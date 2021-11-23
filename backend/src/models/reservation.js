@@ -10,7 +10,7 @@ const reservationSchema = new mongoose.Schema({
 const Reservation = mongoose.model('Reservation',reservationSchema);
 
 async function getAllReservations(){
-    return await Reservation.find()
+    return Reservation.find()
 }
 
 async function saveReservation(reservation){
@@ -31,7 +31,7 @@ async function saveReservation(reservation){
         date,
         creneau
     })
-    return await newReservation.save()
+    return newReservation.save()
 }
 
 
