@@ -17,7 +17,7 @@ export class AuthService {
     this.http.post('http://www.localhost:3000/api/users/signIn', credentials).subscribe((res:any) => {
       if (res['token']) {
         localStorage.setItem('token', res['token']);
-        this.user.next(res['user'][0])
+        this.user.next(res['user'])
         this.router.navigate(['/planning'])
       }
     })
