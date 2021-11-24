@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Reservation } from '../models/reservation.model';
-import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class ReservationService {
-  constructor(private http: HttpClient, private router : Router) { }
+  public reservations$ : Subject<Reservation[]> = new Subject()
 
-  getAllReservations(){
-    return this.http.get<Reservation[]>('http://www.localhost:3000/api/reservations/reservations');
-  }
+  constructor(private http: HttpClient) {
+    this.http.get<Reservation[]>('http://www.localhost:3000/api/reservations/reservations').subscribe(reservations => {
+      this.reservations$.next([...reservations])
+    })
+   }
 
   saveMassage(param:Reservation){
-    console.log(param)
     return this.http.post<Reservation>(`http://www.localhost:3000/api/reservations/reservations`,param);
   }
 

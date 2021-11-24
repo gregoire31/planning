@@ -6,6 +6,7 @@ const io = require("socket.io")(server,{
     cors: true,
     origin: ['*']
 })
+app.set('socketio', io);
 
 const bodyParser = require('body-parser')
 const cors = require('cors')
@@ -33,7 +34,7 @@ app.use(expressJWT({ secret: secret, algorithms: ['HS256'] })
     .unless(
         { path: [
             /^\/api\/users\/signIn/,
-            '/api/users/signUp',
+            /^\/api\/users\/signUp/,
             /^\/api\/users\/checkToken\/.*/
         ]}
     )  

@@ -69,7 +69,7 @@ async function signUp(user){
 
     }
     const emailEverRegistered = await getUserByEmail(user.email)
-    if(emailEverRegistered.length){
+    if(emailEverRegistered){
         return 'email déja enregistré'
     }
 

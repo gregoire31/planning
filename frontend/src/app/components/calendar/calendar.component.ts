@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Reservation } from 'src/app/models/reservation.model';
 import * as moment from 'moment';
 import { Massage } from 'src/app/models/massage.model';
+
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
@@ -27,8 +28,7 @@ export class CalendarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
-    this.reservationService.getAllReservations().subscribe(reservations => {
+    this.reservationService.reservations$.subscribe((reservations:Reservation[]) => {
       this.reservations = reservations
     })
     this.initScheduleData(this.incrementNumberWeek)
