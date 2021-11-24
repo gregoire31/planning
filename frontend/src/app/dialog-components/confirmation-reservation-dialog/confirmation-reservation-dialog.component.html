@@ -1,0 +1,38 @@
+
+<div style="display: flex;">
+
+  <img style="width: 50%;" src="{{data.massage.image}}" alt="">
+  <!-- <p>{{data.massage.image}}</p> -->
+  <div  style="width: 50%; text-align: center;">
+    <strong style="font-size: large; padding: 1em">Massage {{data.massage.nom}}</strong>
+    <div style="display: flex; justify-content: space-between; padding: 0.5em">
+      <p>prix:</p>
+      <p>{{data.massage.prix}} €</p>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; padding: 0.5em">
+      <p>durée:</p>
+      <p>{{data.massage.duree}} h</p>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; padding: 0.5em">
+      <p>nombre de masseuse:</p>
+      <p>{{data.massage.personnelRequis}}</p>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; padding: 0.5em">
+      <p>date:</p>
+      <p>{{data.reservation.date}}</p>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; padding: 0.5em">
+      <p>Séance de :</p>
+      <p>{{data.reservation.creneau}} heure</p>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; padding: 1em" mat-dialog-actions>
+      <button mat-raised-button color="primary" [mat-dialog-close]="true">Valider</button>
+      <button mat-raised-button color="primary" cdkFocusInitial [mat-dialog-close]="false">Annuler</button>
+    </div>
+  </div>
+</div>

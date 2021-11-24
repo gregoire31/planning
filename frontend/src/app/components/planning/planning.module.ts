@@ -6,14 +6,17 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { CalendarModule } from '../calendar/calendar.module';
 import { SocketService } from 'src/app/services/socket.service';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ConfirmationReservationDialogComponent } from 'src/app/dialog-components/confirmation-reservation-dialog/confirmation-reservation-dialog.component';
 
 @NgModule({
-  declarations: [PlanningComponent],
+  declarations: [PlanningComponent, ConfirmationReservationDialogComponent],
   imports: [
     CommonModule,
     MatButtonModule,
     MatCardModule,
-    CalendarModule
+    CalendarModule,
+    MatDialogModule
   ],
   providers:[MassageService, SocketService]
 })

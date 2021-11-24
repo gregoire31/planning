@@ -7,7 +7,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ReservationService } from 'src/app/services/reservation.service';
 
-
 @NgModule({
   declarations: [CalendarComponent],
   imports: [

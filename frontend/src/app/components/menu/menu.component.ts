@@ -15,7 +15,6 @@ export class MenuComponent implements OnInit {
     this.authService.checkToken(token).subscribe((user)=> {
       this.authService.user.next(user)
     })
-
   }
 
   logOut(){

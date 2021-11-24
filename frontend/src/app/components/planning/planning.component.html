@@ -17,4 +17,4 @@
   </mat-card>
 </div>
 
-<app-calendar [massageSelected]="massageSelected"></app-calendar>
+<app-calendar [massageSelected]="massageSelected" (massageEvent)="bookMassage($event)"></app-calendar>

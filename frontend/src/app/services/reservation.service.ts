@@ -7,11 +7,13 @@ import { Subject } from 'rxjs';
 export class ReservationService {
   public reservations$ : Subject<Reservation[]> = new Subject()
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient) {}
+
+  getReservations(){
     this.http.get<Reservation[]>('http://www.localhost:3000/api/reservations/reservations').subscribe(reservations => {
       this.reservations$.next([...reservations])
     })
-   }
+  }
 
   saveMassage(param:Reservation){
     return this.http.post<Reservation>(`http://www.localhost:3000/api/reservations/reservations`,param);

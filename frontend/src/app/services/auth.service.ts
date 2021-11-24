@@ -33,6 +33,7 @@ export class AuthService {
 
   logOut(){
     this.user.next(<User>{})
+    localStorage.removeItem('token')
     this.router.navigate(['/signIn'])
   }
 

@@ -1,7 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { ToastrService } from 'ngx-toastr';
 import { Reservation } from 'src/app/models/reservation.model';
 import * as moment from 'moment';
 import { Massage } from 'src/app/models/massage.model';
@@ -12,35 +11,36 @@ import { Massage } from 'src/app/models/massage.model';
   styleUrls: ['./calendar.component.scss']
 })
 
-
 export class CalendarComponent implements OnInit {
   @Input() massageSelected: Massage = <Massage>{}
+  @Output() massageEvent = new EventEmitter<Reservation>();
 
   public headerSchedule: any[] = []
   public headerScheduleString: string[] = []
   public rowsSchedule: any[] = []
   public reservations : Reservation[] = []
   public incrementNumberWeek : number = 0
+
   constructor(
     private reservationService : ReservationService,
-    private authService : AuthService,
-    private toastService : ToastrService
+    private authService : AuthService
   ) { }
 
   ngOnInit(): void {
+    this.reservationService.getReservations()
     this.reservationService.reservations$.subscribe((reservations:Reservation[]) => {
       this.reservations = reservations
     })
     this.initScheduleData(this.incrementNumberWeek)
   }
 
-
   initScheduleData(weekFrom:number){
     this.headerSchedule = []
     this.rowsSchedule = []
     this.headerScheduleString = []
-    moment.locale('fr');
     let numberDayFrom : number = weekFrom * 7
+
+    moment.locale('fr');
     for(let i = 0; i < 6; i++){
       const actualMomentDay = moment(moment().startOf('week')).add((i+numberDayFrom),'day').format('L')
       const actualDayDateMoment = moment(moment().startOf('week')).add((i+numberDayFrom),'day').format('LLLL')
@@ -48,6 +48,7 @@ export class CalendarComponent implements OnInit {
       const dayConcat = `${actualDay[0]} ${actualDay[1]} ${actualDay[2]}`
       this.headerSchedule.push({label:dayConcat , value:actualMomentDay, valueDate : actualDayDateMoment})
     }
+
     for(let i = 0; i < 9; i++){
       let hour = i+9
       let rowScheduleValue:any = {}
@@ -96,21 +97,13 @@ export class CalendarComponent implements OnInit {
   }
 
   saveReservation(element:any){
-
     let reservationToSave : Reservation = {
       creneau:element[0],
       date: element[1],
       idMassage :this.massageSelected._id,
       iduser:this.authService.getUser().value._id
     }
-    if(!this.checkifOnePropertyisUndefined(reservationToSave)){
-       this.reservationService.saveMassage(reservationToSave).subscribe(data=> {
-        this.reservations.push(data)
-        this.toastService.success('Réservation enregistrée')
-       })
-    }else{
-      this.toastService.error('Veuillez sélectionner un massage')
-    }
+    this.massageEvent.emit(reservationToSave)
   }
 
 }
