@@ -4,17 +4,17 @@ import { environment } from 'src/environments/environment';
 import { ReservationService } from './reservation.service';
 import { Reservation } from '../models/reservation.model';
 @Injectable()
+
 export class SocketService {
   public socket = <Socket>{}
 
   constructor(private reservationService : ReservationService) { }
 
-
   setupSocketConnection(){
     this.socket = io(environment.SOCKET_ENDPOINT)
 
-    this.socket.on('reservation', (data: Reservation[]) => {
-      this.reservationService.reservations$.next([...data])
+    this.socket.on('reservation', (data: Reservation) => {
+      this.reservationService.reservations$.next([...this.reservationService.reservations$.value,...[data]])
     });
 
   }
@@ -23,7 +23,6 @@ export class SocketService {
     if (this.socket) {
         this.socket.disconnect();
     }
-}
-
+  }
 
 }

@@ -13,9 +13,7 @@ router.post('/reservations',async(req,res)=> {
         res.status(400).send(reservation);
     }else{
         const io = req.app.get('socketio');
-        const reservations =  await getAllReservations()
-        io.emit('reservation',reservations);
-        res.status(200).send(reservation);
+        io.emit('reservation',reservation);
     }
 })
 

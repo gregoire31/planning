@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Reservation } from '../models/reservation.model';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class ReservationService {
-  public reservations$ : Subject<Reservation[]> = new Subject()
+  public reservations$ = new BehaviorSubject<Reservation[]>([])
 
   constructor(private http: HttpClient) {}
 
