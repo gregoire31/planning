@@ -7,10 +7,22 @@ const reservationSchema = new mongoose.Schema({
     creneau: Number,
 })
 
+constreservation2Schema = new mongoose.Schema({
+    day : String,
+    daySlot : Array
+})
+
 const Reservation = mongoose.model('Reservation',reservationSchema);
 
 async function getAllReservations(){
     return Reservation.find()
+}
+
+async function getAllReservations2 (date){
+    if(date){
+        reservationnn = mongoose.model(date, constreservation2Schema);
+        return reservationnn.find()
+    }
 }
 
 async function saveReservation(reservation){
@@ -37,3 +49,4 @@ async function saveReservation(reservation){
 
 exports.getAllReservations = getAllReservations
 exports.saveReservation = saveReservation
+exports.getAllReservations2 = getAllReservations2

@@ -28,6 +28,7 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
     this.reservationService.getReservations()
+    this.reservationService.getReservationTest()
     this.reservationService.reservations$.subscribe((reservations:Reservation[]) => {
       this.reservations = reservations
     })

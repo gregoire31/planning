@@ -1,9 +1,15 @@
-const {getAllReservations, saveReservation} = require('../models/reservation')
+const {getAllReservations, saveReservation, getAllReservations2} = require('../models/reservation')
 const express = require('express')
 const router = express.Router()
 
 router.get('/reservations',async(req,res)=> {
     const reservations =  await getAllReservations()
+    res.status(200).json(reservations)
+})
+
+router.get('/reservations2/:date',async(req,res)=> {
+    const date = req.params.date
+    const reservations = await getAllReservations2(date)
     res.status(200).json(reservations)
 })
 
