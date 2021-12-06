@@ -15,9 +15,7 @@ export class ReservationService {
   }
 
   getReservationTest(){
-    this.http.get('http://www.localhost:3000/api/reservations/reservations2/2021-12-06').subscribe(reservations => {
-      console.log(reservations)
-    })
+    return this.http.get('http://www.localhost:3000/api/reservations/reservations2/2021-12-06')
   }
 
   saveMassage(param:Reservation){

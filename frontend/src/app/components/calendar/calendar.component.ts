@@ -20,7 +20,7 @@ export class CalendarComponent implements OnInit {
   public rowsSchedule: any[] = []
   public reservations : Reservation[] = []
   public incrementNumberWeek : number = 0
-
+  public schedule :any = []
   constructor(
     private reservationService : ReservationService,
     private authService : AuthService
@@ -28,11 +28,26 @@ export class CalendarComponent implements OnInit {
 
   ngOnInit(): void {
     this.reservationService.getReservations()
-    this.reservationService.getReservationTest()
+    this.reservationService.getReservationTest().subscribe((planning:any) => {
+      this.schedule = planning.sort(function compare(a:any, b:any) {
+        var dateA = new Date(a.day).getTime();
+        var dateB = new Date(b.day).getTime();
+        return dateA - dateB;
+      });
+    })
     this.reservationService.reservations$.subscribe((reservations:Reservation[]) => {
       this.reservations = reservations
     })
     this.initScheduleData(this.incrementNumberWeek)
+  }
+
+  formateDate(date:any){
+    return moment(date.day).format('dddd DD MMMM')
+  }
+
+  reserveCreneau(reservation:any, index:number){
+    let daySelected = this.schedule.find((schedule:any) => schedule.day === reservation)
+    daySelected.daySlot[index].isBooked = true
   }
 
   initScheduleData(weekFrom:number){
