@@ -10,10 +10,6 @@ td, th {
   padding: 8px;
 }
 
-tr:nth-child(even) {
-  background-color: #dddddd;
-}
-
 .crimson{
   background-color: crimson;
   color:white
@@ -29,6 +25,3 @@ tr:nth-child(even) {
   padding: 1em 0 1em 0;
 }
 
-.mat-header-cell{
-  text-align: center !important
-}

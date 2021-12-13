@@ -1,26 +1,18 @@
-const {getAllReservations, saveReservation, getAllReservations2} = require('../models/reservation')
+const {getAllReservations, saveReservation} = require('../models/reservation')
 const express = require('express')
 const router = express.Router()
 
-router.get('/reservations',async(req,res)=> {
-    const reservations =  await getAllReservations()
-    res.status(200).json(reservations)
-})
-
-router.get('/reservations2/:date',async(req,res)=> {
+router.get('/reservations/:date',async(req,res)=> {
     const date = req.params.date
-    const reservations = await getAllReservations2(date)
+    const reservations = await getAllReservations(date)
     res.status(200).json(reservations)
 })
 
 router.post('/reservations',async(req,res)=> {
     const reservation =  await saveReservation(req.body)
-    if(typeof(reservation) === 'string'){
-        res.status(400).send(reservation);
-    }else{
-        const io = req.app.get('socketio');
-        io.emit('reservation',reservation);
-    }
+    const io = req.app.get('socketio');
+    io.emit('reservation',reservation);
+    
 })
 
 module.exports = router

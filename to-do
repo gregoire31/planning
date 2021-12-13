@@ -1,4 +1,5 @@
-1) block user booking if no massage has been selected
-2) improove design for mobile
-3) clean code
-4) optimiser la requête des réservations en fonction des dates.
+1) Améliorer le design pour mobile
+2) Gérer les créneaux qui dépassent sur d'autres horraires non réservées
+3) Faire un script qui va créer une nouvelle semaine (week +55) et supprimer la semaine passée, (à lancer tous les lundi matin minuit)
+4) faire une vue pour annoncerà l'utilisateur la fin du calendrier
+5) Empécher l'annulation d'une réservation avec paramètre (12h par défaut)

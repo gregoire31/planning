@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Reservation } from '../models/reservation.model';
+import { Reservation, ReservationData } from '../models/reservation.model';
 import { BehaviorSubject } from 'rxjs';
+
 @Injectable()
 export class ReservationService {
   public reservations$ = new BehaviorSubject<Reservation[]>([])
 
   constructor(private http: HttpClient) {}
 
-  getReservations(){
-    this.http.get<Reservation[]>('http://www.localhost:3000/api/reservations/reservations').subscribe(reservations => {
-      this.reservations$.next([...reservations])
+  getReservations(date:string){
+    this.http.get<Reservation[]>(`http://www.localhost:3000/api/reservations/reservations/${date}`).subscribe(reservations => {
+      this.reservations$.next(reservations)
     })
   }
 
-  getReservationTest(){
-    return this.http.get('http://www.localhost:3000/api/reservations/reservations2/2021-12-06')
-  }
-
-  saveMassage(param:Reservation){
+  saveMassage(param:ReservationData){
     return this.http.post<Reservation>(`http://www.localhost:3000/api/reservations/reservations`,param);
   }
 

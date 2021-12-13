@@ -13,8 +13,10 @@ export class SocketService {
   setupSocketConnection(){
     this.socket = io(environment.SOCKET_ENDPOINT)
 
-    this.socket.on('reservation', (data: Reservation) => {
-      this.reservationService.reservations$.next([...this.reservationService.reservations$.value,...[data]])
+    this.socket.on('reservation', (reservation: Reservation) => {
+      const newScheduleReservationIndex = this.reservationService.reservations$.value.findIndex(schedule => schedule.day === reservation.day)
+      this.reservationService.reservations$.value[newScheduleReservationIndex] = reservation
+      this.reservationService.reservations$.next(this.reservationService.reservations$.value)
     });
 
   }

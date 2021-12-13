@@ -39,13 +39,9 @@ for(v = 0; v < 5; v++){
     var jsonContent = JSON.stringify(creneauToRecord2);
      
     const mongooseCommand = `mongoimport --db mongo-planning --collection ${nameOfMongoCollection} --drop --file exercise-data.json --jsonArray`
-    fs.writeFile("exercise-data.json", jsonContent, 'utf8', function (err) {
-        if (err) {
-            console.log("An error occured while writing JSON Object to File.");
-            return console.log(err);
-        }
-            shell.exec(mongooseCommand)
-    });
+    fs.writeFileSync("exercise-data.json", jsonContent)
+    shell.exec(mongooseCommand)
+
 }
 
 app.listen(2500, () => console.log(`listen on port 2500`))

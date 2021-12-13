@@ -1,52 +1,25 @@
 const mongoose = require('mongoose')
 
-const reservationSchema = new mongoose.Schema({
-    iduser : String,
-    idMassage : String,
-    date : String,
-    creneau: Number,
-})
-
-constreservation2Schema = new mongoose.Schema({
+reservationSchema = new mongoose.Schema({
     day : String,
-    daySlot : Array
+    daySlot : [{
+    hourSlot: Number,
+    isBooked: Boolean,
+    idUser : String,
+    idMassage: String
+    }]
 })
 
-const Reservation = mongoose.model('Reservation',reservationSchema);
-
-async function getAllReservations(){
-    return Reservation.find()
-}
-
-async function getAllReservations2 (date){
-    if(date){
-        reservationnn = mongoose.model(date, constreservation2Schema);
-        return reservationnn.find()
-    }
+async function getAllReservations (date){
+    return  mongoose.model(date, reservationSchema).find();
 }
 
 async function saveReservation(reservation){
-    const { iduser,idMassage, date, creneau} = reservation
-
-    const isCreneauReserved =  await Reservation.find({
-        date : date,
-        creneau : creneau
-    })
-
-    if(isCreneauReserved.length){
-        return 'creneau déja enregistré'
-    }
-
-    const newReservation = new Reservation({
-        iduser,
-        idMassage,
-        date,
-        creneau
-    })
-    return newReservation.save()
+    const {document , dateSchema} = reservation
+    const idModel = document._id
+    const Reservation = mongoose.model(dateSchema, reservationSchema);
+    return Reservation.findByIdAndUpdate(idModel, document, {new: true});
 }
-
 
 exports.getAllReservations = getAllReservations
 exports.saveReservation = saveReservation
-exports.getAllReservations2 = getAllReservations2

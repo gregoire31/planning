@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { Reservation } from 'src/app/models/reservation.model';
+import { Reservation, dateBooking, ReservationData } from 'src/app/models/reservation.model';
 import * as moment from 'moment';
 import { Massage } from 'src/app/models/massage.model';
 
@@ -13,71 +13,53 @@ import { Massage } from 'src/app/models/massage.model';
 
 export class CalendarComponent implements OnInit {
   @Input() massageSelected: Massage = <Massage>{}
-  @Output() massageEvent = new EventEmitter<Reservation>();
+  @Output() massageEvent = new EventEmitter<ReservationData>();
 
-  public headerSchedule: any[] = []
-  public headerScheduleString: string[] = []
-  public rowsSchedule: any[] = []
-  public reservations : Reservation[] = []
   public incrementNumberWeek : number = 0
-  public schedule :any = []
+  public schedule : Reservation[] = []
+  public currentMonday : string = ''
+  private dateBooking : dateBooking = <dateBooking>{}
   constructor(
     private reservationService : ReservationService,
     private authService : AuthService
   ) { }
 
   ngOnInit(): void {
-    this.reservationService.getReservations()
-    this.reservationService.getReservationTest().subscribe((planning:any) => {
+    this.currentMonday = moment(moment().startOf('week')).add((1),'day').format("YYYY-MM-DD")
+    this.reservationService.getReservations(this.currentMonday)
+    this.reservationService.reservations$.subscribe(planning => {
       this.schedule = planning.sort(function compare(a:any, b:any) {
         var dateA = new Date(a.day).getTime();
         var dateB = new Date(b.day).getTime();
         return dateA - dateB;
       });
     })
-    this.reservationService.reservations$.subscribe((reservations:Reservation[]) => {
-      this.reservations = reservations
-    })
-    this.initScheduleData(this.incrementNumberWeek)
   }
 
   formateDate(date:any){
-    return moment(date.day).format('dddd DD MMMM')
+    return moment(date).format('dddd DD MMMM')
+  }
+
+  getScheduleDocument(day:string){
+    return this.schedule.filter(schedule => schedule.day === day)[0]
   }
 
   reserveCreneau(reservation:any, index:number){
     let daySelected = this.schedule.find((schedule:any) => schedule.day === reservation)
-    daySelected.daySlot[index].isBooked = true
+    if(daySelected && daySelected.daySlot[index].isBooked === false){
+      daySelected.daySlot[index].isBooked = true
+      daySelected.daySlot[index].idMassage = this.massageSelected._id
+      daySelected.daySlot[index].idUser = this.authService.getUser().value._id
+      this.dateBooking = {
+        slot : daySelected.daySlot[index].hourSlot,
+        day: this.formateDate(daySelected.day)
+      }
+      this.saveReservation()
+    }
   }
 
-  initScheduleData(weekFrom:number){
-    this.headerSchedule = []
-    this.rowsSchedule = []
-    this.headerScheduleString = []
-    let numberDayFrom : number = weekFrom * 7
-
-    moment.locale('fr');
-    for(let i = 0; i < 6; i++){
-      const actualMomentDay = moment(moment().startOf('week')).add((i+numberDayFrom),'day').format('L')
-      const actualDayDateMoment = moment(moment().startOf('week')).add((i+numberDayFrom),'day').format('LLLL')
-      const actualDay= moment(moment().startOf('week')).add((i+numberDayFrom),'day').format('LLLL').split(" ")
-      const dayConcat = `${actualDay[0]} ${actualDay[1]} ${actualDay[2]}`
-      this.headerSchedule.push({label:dayConcat , value:actualMomentDay, valueDate : actualDayDateMoment})
-    }
-
-    for(let i = 0; i < 9; i++){
-      let hour = i+9
-      let rowScheduleValue:any = {}
-      this.headerSchedule.forEach(header => {
-        rowScheduleValue[header.label]=hour
-      });
-      this.rowsSchedule.push(rowScheduleValue)
-    }
-    this.headerScheduleString = this.headerSchedule.map(header => header.label)
-  }
-
-  getWeek(date:any) : string{
-    return moment(date).format('LL')
+  getWeek() : string{
+    return moment(this.currentMonday).format('DD MMMM YYYY')
   }
 
   checkifOnePropertyisUndefined(objectToCheck:any) : boolean{
@@ -90,36 +72,31 @@ export class CalendarComponent implements OnInit {
     return hasPropertyUndefined
   }
 
-  checkIfTimeSlotAvailable(creneau:any): boolean{
-    let isReserved : boolean = true
-    this.reservations.forEach(reservation => {
-      if(reservation.creneau === creneau[0] && reservation.date === creneau[1]){
-        isReserved = false
-      }
-    });
-    return isReserved
-  }
-
   public incrementWeek(){
     this.incrementNumberWeek = this.incrementNumberWeek+1
-    this.initScheduleData(this.incrementNumberWeek)
+    this.currentMonday = moment(moment().startOf('week')).add((1 + (this.incrementNumberWeek * 7)),'day').format("YYYY-MM-DD")
+    this.reservationService.getReservations(this.currentMonday)
   }
 
   public decrementWeek(){
     if(this.incrementNumberWeek > 0){
       this.incrementNumberWeek = this.incrementNumberWeek-1
-      this.initScheduleData(this.incrementNumberWeek)
+      this.currentMonday = moment(moment().startOf('week')).add((1 + (this.incrementNumberWeek * 7)),'day').format("YYYY-MM-DD")
+      this.reservationService.getReservations(this.currentMonday)
     }
   }
 
-  saveReservation(element:any){
-    let reservationToSave : Reservation = {
-      creneau:element[0],
-      date: element[1],
-      idMassage :this.massageSelected._id,
-      iduser:this.authService.getUser().value._id
-    }
-    this.massageEvent.emit(reservationToSave)
+  saveReservation(){
+    const scheduleDocument = this.getScheduleDocument(this.dateBooking.day)
+
+      let reservationToSave : ReservationData = {
+        document: scheduleDocument,
+        dateSchema : this.currentMonday,
+        date: this.dateBooking.day,
+        slot: this.dateBooking.slot
+      }
+
+      this.massageEvent.emit(reservationToSave)
   }
 
 }
