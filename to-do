@@ -3,3 +3,12 @@
 3) Faire un script qui va créer une nouvelle semaine (week +55) et supprimer la semaine passée, (à lancer tous les lundi matin minuit)
 4) faire une vue pour annoncerà l'utilisateur la fin du calendrier
 5) Empécher l'annulation d'une réservation avec paramètre (12h par défaut)
+6) Ajouter Catégorie employé avec : nom, profession, listeDesPrestations, horraireTravail, pauseEntrePrestation,Photo, jourArrêt, jourTravaillé
+7) faire un outil de gestion de personnel
+8) Appliquer cette logique au planning
+9) Lors de la réservation de la prestation, Afficher les disponnibilités du personnel.
+10) Bloquer en grisant les creneaux, si le personnel est en 'temps d'arrêt'
+11) Au choix de la prestation, griser ou non les créneaux dispo (par exemple s'il est requis deux membres du personnel pour réaliser une prestation et qu'un des membre est déjà pris, alors griser le créneau)
+12) Réaliser un panier client
+13) Permettre à l'utilisateur d'ajouter des services / produits dans son pannier mais également de payer directement.
+14) Ajouter un moyen de paiement Stripe.
