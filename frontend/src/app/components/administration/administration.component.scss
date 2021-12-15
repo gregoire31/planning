@@ -1,0 +1,28 @@
+.example-card {
+  max-width: 300px;
+  margin: 2em 0 2em 0;
+}
+
+#listCards{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 0 10em 0 10em;
+}
+
+.colorSelected{
+  background-color: #00bfff;
+}
+
+mat-card-actions{
+  display: flex;
+  justify-content: space-between;
+}
+
+.halfWidth{
+  width: 50%;
+}
+
+mat-form-field{
+  width: 100%;
+}
