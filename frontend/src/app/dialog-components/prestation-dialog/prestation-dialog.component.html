@@ -1,0 +1,16 @@
+<mat-list *ngFor="let prestation of prestations">
+  <div *ngIf="prestation.acquis" style="display: flex; align-items: center;">
+    <mat-list-item>{{prestation.nom}}</mat-list-item>
+    <mat-icon (click)="updatePrestation(prestation)" style=" cursor: pointer; color: crimson;">remove_circle</mat-icon>
+  </div>
+  <div *ngIf="!prestation.acquis" style="display: flex; align-items: center">
+    <mat-list-item>{{prestation.nom}}</mat-list-item>
+    <mat-icon (click)="updatePrestation(prestation)" style=" cursor: pointer; color: lightgreen;">add_circle</mat-icon>
+  </div>
+  <mat-divider></mat-divider>
+</mat-list>
+
+<div style="display: flex; justify-content: space-between; padding: 1em" mat-dialog-actions>
+  <button mat-raised-button color="primary" [mat-dialog-close]="prestations">Valider</button>
+  <button mat-raised-button color="primary" cdkFocusInitial [mat-dialog-close]="false">Annuler</button>
+</div>

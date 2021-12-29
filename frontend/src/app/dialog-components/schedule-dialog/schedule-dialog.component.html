@@ -1,0 +1,23 @@
+<div style="display: flex; justify-content: space-between; padding: 0em 0em 2em 0em;">
+  <mat-icon style="font-size: 40px" class="cursorPointor" (click)="decrementMonthNumber()">chevron_left</mat-icon>
+  <span style="font-size: large;">  {{ currentMonth }}</span>
+  <mat-icon style="font-size: 40px;" class="cursorPointor" (click)="incrementMonthNumber()">chevron_right</mat-icon>
+</div>
+<div style="display: flex; flex-wrap: wrap;">
+  <div style="flex: 1 0 14%; text-align: center;" *ngFor="let d of dayOfTheWeek">
+      <p>{{d}}</p>
+    </div>
+</div>
+
+<div style="display: flex; flex-wrap: wrap;">
+  <div [ngClass]="{blueBackground : s.isBooked && !s.isDisabled, cursorPointor: !s.isDisabled && s.numberOfTheDay !=='0', disabled : s.isDisabled}" style="flex: 1 0 14%; text-align: center; align-items: center;" *ngFor="let s of schedule">
+    <div [attr.disabled]="s.isDisabled" style="margin : 1em 0; font-size: large;" (click)="updateAbsenceDay(s)" *ngIf="s.numberOfTheDay !== '0'">
+      {{s.numberOfTheDay}}
+    </div>
+    </div>
+</div>
+
+<div style="display: flex; justify-content: space-between; padding: 1em" mat-dialog-actions>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true">Valider</button>
+  <button mat-raised-button color="primary" cdkFocusInitial [mat-dialog-close]="false">Annuler</button>
+</div>

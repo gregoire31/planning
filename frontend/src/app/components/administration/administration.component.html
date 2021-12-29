@@ -1,11 +1,47 @@
 <div id="listCards" >
+
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-icon matSuffix>person_outline</mat-icon>
+          <mat-label>Nom</mat-label>
+          <input [(ngModel)]="employeEdit.nom" matInput >
+        </mat-form-field>
+      </mat-card-title>
+    </mat-card-header>
+    <!-- <mat-icon style="width: 100%; color: aliceblue;"> add_circle</mat-icon> -->
+    <mat-card-content >
+      <div style="text-align: center;">
+        <img src="../../../assets/plus.png" style="max-width:100px;" alt="">
+      </div>
+      <div style="text-align: center; margin-top: 2em;">
+
+        <button  mat-raised-button color="primary" (click)="updatePrestations(employeEdit._id,employeEdit.listeDesPrestations)">Prestations</button>
+      </div>
+        <!-- <p> Pause entre prestations : {{employee.pauseEntrePrestation}}</p>
+        <p> Profession : {{employee.profession}}</p> -->
+        <div style="display: flex; justify-content: space-between; margin-top: 1em;">
+          <!-- <button *ngIf="!employee.addAbsence" mat-raised-button color="primary" (click)="editAbsence(employee._id)">Ajouter Absences</button>
+          <button [disabled]="!employee.hasNewAbsence" *ngIf="employee.addAbsence" mat-raised-button color="primary" (click)="cancelEditAbsence(employee._id)">Annuler Absences</button> -->
+        </div>
+
+    </mat-card-content>
+    <mat-card-actions>
+      <button class="halfWidth" [disabled]="!employeEdit.nom" mat-raised-button color="primary" (click)="saveNewEmploye()">SAUVEGARDER</button>
+      <button class="halfWidth" mat-raised-button color="warn">SUPPRIMER</button>
+    </mat-card-actions>
+  </mat-card>
+
+
+
   <mat-card class="example-card" *ngFor="let employee of employees">
     <mat-card-header>
       <mat-card-title>{{employee.nom}}</mat-card-title>
     </mat-card-header>
     <img mat-card-image src="{{employee.photo}}" alt="Photo of {{employee.nom}}">
     <mat-card-content>
-      <mat-form-field appearance="fill">
+      <!-- <mat-form-field appearance="fill">
         <mat-label>Liste de jour arrété</mat-label>
         <mat-select>
           <mat-option *ngFor="let jourArret of employee.jourArret" [value]="jourArret">
@@ -20,21 +56,20 @@
             {{jourTravaille}}
           </mat-option>
         </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Liste des prestations</mat-label>
-        <mat-select>
-          <mat-option *ngFor="let prestation of employee.listeDesPrestations" [value]="prestation">
-            {{prestation}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <p> Pause entre prestations : {{employee.pauseEntrePrestation}}</p>
-      <p> Profession : {{employee.profession}}</p>
+      </mat-form-field> -->
+
+      <button mat-raised-button color="primary" (click)="updatePrestations(employee._id,employee.listeDesPrestations)">Prestations</button>
+      <!-- <p> Pause entre prestations : {{employee.pauseEntrePrestation}}</p>
+      <p> Profession : {{employee.profession}}</p> -->
+      <div style="display: flex; justify-content: space-between; margin-top: 1em;">
+        <!-- <button *ngIf="!employee.addAbsence" mat-raised-button color="primary" (click)="editAbsence(employee._id)">Ajouter Absences</button>
+        <button [disabled]="!employee.hasNewAbsence" *ngIf="employee.addAbsence" mat-raised-button color="primary" (click)="cancelEditAbsence(employee._id)">Annuler Absences</button> -->
+        <button mat-raised-button color="primary" (click)="showAbsence(employee._id)">Voir Absences</button>
+      </div>
 
     </mat-card-content>
     <mat-card-actions>
-      <button class="halfWidth" mat-raised-button color="primary">MODIFIER</button>
+      <button class="halfWidth" [disabled]="!employee.hasBeenUpdate" mat-raised-button color="primary" (click)="updateEmploye(employee)">SAUVEGARDER</button>
       <button class="halfWidth" mat-raised-button color="warn">SUPPRIMER</button>
     </mat-card-actions>
   </mat-card>

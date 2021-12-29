@@ -15,6 +15,7 @@ const mongoose = require('mongoose')
 const users = require('./routes/users')
 const massages = require('./routes/massages')
 const reservations = require('./routes/reservations')
+const employes = require('./routes/employes')
 const expressJWT = require('express-jwt');
 require('dotenv').config();
 
@@ -48,4 +49,5 @@ io.on('connection', (socket) => {
 app.use('/api/users', users);
 app.use('/api/massages',massages)
 app.use('/api/reservations',reservations)
+app.use('/api/employes',employes)
 server.listen(parseInt(process.env.PORT), () => console.log(`listen on port ${process.env.PORT}`))
