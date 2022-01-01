@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+const fs = require('fs')
 const employeSchema = new mongoose.Schema({
     nom: String,
     photo: String,
@@ -16,7 +16,6 @@ const employeSchema = new mongoose.Schema({
 
 const Employe = mongoose.model('Employe',employeSchema);
 
-
 async function getAllEmployes(){
     return Employe.find()
 }
@@ -25,11 +24,9 @@ async function getEmploye(id){
     return Employe.findById(id)
 }
 
-async function updateAbsenceEmploye(absenceEmploye){
-    // console.log(absenceEmploye)
-    const {_id, absences} = absenceEmploye
-    console.log(_id, absences)
-    return Employe.findByIdAndUpdate(_id, {absences : absences}, { new: true })
+async function updateEmploye(absenceEmploye){
+    const {_id, absences, listeDesPrestations} = absenceEmploye
+    return Employe.findByIdAndUpdate(_id, {absences : absences, listeDesPrestations : listeDesPrestations}, { new: true })
 }
 
 async function addEmploye(employe){
@@ -47,9 +44,20 @@ async function addEmploye(employe){
     return newEmploye.save()
 }
 
-
+async function updateImageEmploye(imageEmployeData){
+    const { _id, imagebase64, imageFrontPath, imageStoragePath} = imageEmployeData
+    if(fs.existsSync(imageStoragePath) === 'true'){
+        fs.unlink(imageStoragePath,(err => {
+            if (err) console.log(err);
+        }));
+    }
+    fs.writeFile(imageStoragePath, imagebase64, 'base64', function(err) {
+    });
+    return Employe.findByIdAndUpdate(_id, {photo : imageFrontPath}, { new: true })
+}
 
 exports.addEmploye = addEmploye
 exports.getAllEmployes = getAllEmployes
 exports.getEmploye = getEmploye
-exports.updateAbsenceEmploye = updateAbsenceEmploye
+exports.updateEmploye = updateEmploye
+exports.updateImageEmploye = updateImageEmploye

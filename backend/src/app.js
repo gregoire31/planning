@@ -2,14 +2,18 @@ const express = require('express')
 const app = express()
 const http = require('http');
 const server = http.createServer(app);
+const cors = require('cors')
+app.use(cors());
+
 const io = require("socket.io")(server,{
     cors: true,
     origin: ['*']
 })
 app.set('socketio', io);
-
-const bodyParser = require('body-parser')
-const cors = require('cors')
+app.use('/public', express.static(__dirname + '/public'));
+let bodyParser = require('body-parser')
+app.use(bodyParser.json({limit: '10mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
 const mongoose = require('mongoose')
 
 const users = require('./routes/users')
@@ -28,7 +32,6 @@ mongoose
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
 
 
 app.use(expressJWT({ secret: secret, algorithms: ['HS256'] })
@@ -36,7 +39,8 @@ app.use(expressJWT({ secret: secret, algorithms: ['HS256'] })
         { path: [
             /^\/api\/users\/signIn/,
             /^\/api\/users\/signUp/,
-            /^\/api\/users\/checkToken\/.*/
+            /^\/api\/users\/checkToken\/.*/,
+            /^\/api\/employes\/.*/
         ]}
     )  
 );

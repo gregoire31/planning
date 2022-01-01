@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Employe } from 'src/app/models/employe.model';
 import { Prestation } from 'src/app/models/employe.model';
 import { AdministrationService } from 'src/app/services/administration.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PrestationDialogComponent } from 'src/app/dialog-components/prestation-dialog/prestation-dialog.component';
 import { ScheduleDialogComponent } from 'src/app/dialog-components/schedule-dialog/schedule-dialog.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 export interface ScheduleData {
   date: Date,
@@ -19,11 +20,11 @@ export interface ScheduleData {
   styleUrls: ['./administration.component.scss']
 })
 export class AdministrationComponent implements OnInit {
-
+  selectedFiles?: any;
   public employees: Employe[] = []
   public employeEdit  = <Employe>{}
   constructor(private administrationService: AdministrationService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog, private _sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.employeEdit = {
@@ -59,13 +60,52 @@ export class AdministrationComponent implements OnInit {
       ],
       nom : '',
       pauseEntrePrestation : 0,
-      photo : '../../../assets/employe2.jpg',
+      photo : '',
       profession : 'masseuse',
       hasBeenUpdate : false
     }
     this.administrationService.getEmployes().subscribe(employes => {
       this.employees = employes
     })
+  }
+
+  compressImage(src:any, newX:number, newY:number) {
+    return new Promise((res, rej) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = () => {
+        const elem = document.createElement('canvas');
+        elem.width = newX;
+        elem.height = newY;
+        const ctx = elem.getContext('2d');
+        ctx?.drawImage(img, 0, 0, newX, newY);
+        const data = ctx?.canvas.toDataURL();
+        res(data);
+      }
+      img.onerror = error => rej(error);
+    })
+  }
+
+  selectFile(event:any){
+    this.selectedFiles = event.target.files[0];
+    if(this.selectedFiles){
+      var self = this
+      const imageBlob = this.selectedFiles
+      const ext = imageBlob.name.split('.').pop().toLowerCase()
+      var reader = new FileReader();
+      reader.readAsDataURL(imageBlob);
+      reader.onloadend = function() {
+        var base64data = reader.result?.toString();
+        self.compressImage(base64data, 332, 415).then((compressed:any) => {
+          self.employeEdit.image = {
+            base64 : compressed.split(',')[1],
+            ext:ext
+          }
+            self.employeEdit.photo = self._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+          + compressed.split(',')[1]);
+        })
+      }
+    }
   }
 
   updatePrestations(idEmploye: string, prestations: Prestation[]) {
@@ -86,70 +126,88 @@ export class AdministrationComponent implements OnInit {
     });
   }
 
-  saveNewEmploye(){
-    this.administrationService.saveNewEmploye(this.employeEdit).subscribe(data => {
-      this.employees = [...this.employees,data]
+  addNewEmploye(){
+    this.employeEdit.photo = ''
+    const image = JSON.parse(JSON.stringify(this.employeEdit.image))
+    delete this.employeEdit.image
+
+    this.administrationService.addNewEmploye(this.employeEdit).subscribe((employe:Employe) =>{
+      const imageStoragePath = `./src/public/${employe._id}.${image.ext}`
+      const imageFrontPath= `http://localhost:3000/public/${employe._id}.${image.ext}`
+
+      const imageEmployeData = {
+        imagebase64 : image.base64,
+        imageStoragePath : imageStoragePath,
+        imageFrontPath : imageFrontPath,
+        _id: employe._id
+      }
+
+      this.administrationService.addNewImage(imageEmployeData).subscribe(() =>{
+        employe.photo = imageFrontPath
+        this.employees = [...this.employees, employe]
+      })
     })
   }
 
   updateEmploye(employee : Employe){
     this.administrationService.updateEmployeData(employee)
+    employee.hasBeenUpdate = false
   }
 
   showAbsence(employeeId: string) {
 
     const employees = this.employees
     const indexOfEmployeeToUpdate = employees.findIndex(employee => employee._id === employeeId)
-    this.administrationService.absenceTemporaire.data = [...employees[indexOfEmployeeToUpdate].absences]
-    this.administrationService.absenceTemporaire.id = employeeId
+    this.administrationService.absenceEmployeeTemporaire.data = [...employees[indexOfEmployeeToUpdate].absences]
+    this.administrationService.absenceEmployeeTemporaire.id = employeeId
     this.administrationService.actualNumberOfMonthAdded = 0
-    this.administrationService.generateListDate()
+    this.administrationService.generateEmployeScheduleDatesOfCurrentMonth()
 
     const confirmDialog = this.dialog.open(ScheduleDialogComponent, {
       maxWidth: '50vh',
     });
     confirmDialog.afterClosed().subscribe(result => {
       if (result === true) {
-        employees[indexOfEmployeeToUpdate].hasBeenUpdate = this.checkAbsenceArrayHasChanged(employees[indexOfEmployeeToUpdate].absences,this.administrationService.absenceTemporaire.data)
-        employees[indexOfEmployeeToUpdate].absences = this.administrationService.absenceTemporaire.data
+        employees[indexOfEmployeeToUpdate].hasBeenUpdate = this.absenceArrayHasChanged(employees[indexOfEmployeeToUpdate].absences,this.administrationService.absenceEmployeeTemporaire.data)
+        employees[indexOfEmployeeToUpdate].absences = this.administrationService.absenceEmployeeTemporaire.data
       }
-      this.administrationService.absenceTemporaire.data = []
+      this.administrationService.absenceEmployeeTemporaire.data = []
     })
   }
 
-  checkAbsenceArrayHasChanged(employeAbsence : any[] , absenceTemporaire : any[] ) : boolean{
+  absenceArrayHasChanged(absenceEmployee : any[] , absenceEmployeeTemporaire : any[] ) : boolean{
 
-    employeAbsence = employeAbsence.map((employeAbsence: any) => {
-      if(employeAbsence instanceof Date){
-        return employeAbsence.toDateString()
+    absenceEmployee = absenceEmployee.map((absenceEmployee: any) => {
+      if(absenceEmployee instanceof Date){
+        return absenceEmployee.toDateString()
       }else{
-        return new Date(employeAbsence).toDateString()
+        return new Date(absenceEmployee).toDateString()
       }
     })
 
-    absenceTemporaire = absenceTemporaire.map((employeAbsence: any) => {
-      if(employeAbsence instanceof Date){
-        return employeAbsence.toDateString()
+    absenceEmployeeTemporaire = absenceEmployeeTemporaire.map((absenceEmployee: any) => {
+      if(absenceEmployee instanceof Date){
+        return absenceEmployee.toDateString()
       }else{
-        return new Date(employeAbsence).toDateString()
+        return new Date(absenceEmployee).toDateString()
       }
     })
 
-    let checkAbsenceArrayCahged : boolean = false
-    if(absenceTemporaire.length !== employeAbsence.length) return true
-    for(let empAbs of employeAbsence){
+    let absenceArrayHasChanged : boolean = false
+    if(absenceEmployeeTemporaire.length !== absenceEmployee.length) return true
+    for(let absEmp of absenceEmployee){
       let isContain : boolean = false
-      for(let absTmp of absenceTemporaire){
-        if(absTmp === empAbs){
+      for(let absTmp of absenceEmployeeTemporaire){
+        if(absTmp === absEmp){
           isContain = true
         }
       }
       if(!isContain){
-        checkAbsenceArrayCahged = true
+        absenceArrayHasChanged = true
         break;
       }
     }
-    return checkAbsenceArrayCahged
+    return absenceArrayHasChanged
   }
 }
 

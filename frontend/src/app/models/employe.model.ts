@@ -7,13 +7,15 @@ export interface EmployeAbsence {
 export interface Employe {
   _id:string;
   nom: string;
-  photo: string;
+  photo: any;
   profession: string;
   listeDesPrestations : Array<Prestation>;
   pauseEntrePrestation: number;
   jourTravaille: Array<string>;
   hasBeenUpdate?:boolean;
-  absences : Array<Date>
+  absences : Array<Date>,
+  imageFormData? : FormData,
+  image?: any
 }
 
 export interface Prestation  {

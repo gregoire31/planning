@@ -48,7 +48,6 @@ export class PlanningComponent implements OnInit {
       if (result === true) {
         delete reservation.date
         delete reservation.slot
-        // reservation = this.deleteProperties(reservation,['date','slot'])
         this.reservationService.saveMassage(reservation).subscribe()
         this.toastService.success('Réservation enregistrée')
       }else{
@@ -57,8 +56,7 @@ export class PlanningComponent implements OnInit {
     });
   }
 
-
-  deleteProperties(object : any, properties:Array<string>){
+  deleteProperties(object : any, properties:Array<string>){ //not working
     for (let key in object){
       if(properties.includes(key)){
         delete object.key

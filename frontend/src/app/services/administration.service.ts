@@ -10,8 +10,8 @@ export class AdministrationService {
   private employees : Employe[] = []
   private firstDayOfTheMonth = moment().startOf('month').toDate()
   public actualNumberOfMonthAdded : number = 0
-  public actualListDate : ScheduleData[] = []
-  public absenceTemporaire = <EmployeAbsence>{}
+  public employeScheduleDatesOfCurrentMonth : ScheduleData[] = []
+  public absenceEmployeeTemporaire = <EmployeAbsence>{}
   constructor(private http : HttpClient) {
 
   }
@@ -28,30 +28,29 @@ export class AdministrationService {
   // incrementList
   incrementMonthNumber(){
     this.actualNumberOfMonthAdded = this.actualNumberOfMonthAdded +1
-    this.generateListDate()
+    this.generateEmployeScheduleDatesOfCurrentMonth()
   }
   decrementMonthNumber(){
     this.actualNumberOfMonthAdded = this.actualNumberOfMonthAdded - 1
-    this.generateListDate()
+    this.generateEmployeScheduleDatesOfCurrentMonth()
   }
 
-  generateListDate(){
-    const myHolidayDates = this.absenceTemporaire.data
-    console.log(myHolidayDates)
-    this.actualListDate = []
+  generateEmployeScheduleDatesOfCurrentMonth(){
+    this.employeScheduleDatesOfCurrentMonth = []
+
     const listDayOfMonth = this.getLisDayOfTheMonth(moment(this.firstDayOfTheMonth).add(this.actualNumberOfMonthAdded,"months").toDate())
     const dateNow = moment().toDate()
     let isBooked : boolean
 
     listDayOfMonth.forEach(day => {
       isBooked = false
-      for (let dayHolyday of myHolidayDates){
+      for (let dayHolyday of this.absenceEmployeeTemporaire.data){
         if(moment(dayHolyday).isSame(moment(day))){
           isBooked = true
           break;
         }
       }
-      this.actualListDate.push({
+      this.employeScheduleDatesOfCurrentMonth.push({
         date : day,
         isBooked : isBooked,
         isDisabled : moment(day).isBefore(moment(dateNow)),
@@ -69,24 +68,22 @@ export class AdministrationService {
     }
 
     numberOfWeekToAdd = this.getFirstNumericDayOfTheMonth()
-
     this.addEmptyDateStartSchedule(numberOfWeekToAdd, dayEmpty)
-
     this.addEmptyDateEndSchedule(dayEmpty)
 
   }
 
   addEmptyDateStartSchedule(numberOfWeekToAdd : number,dayEmpty : ScheduleData){
     for(let i = 0; i < numberOfWeekToAdd; i++){
-      this.actualListDate.unshift(dayEmpty)
+      this.employeScheduleDatesOfCurrentMonth.unshift(dayEmpty)
     }
   }
 
   addEmptyDateEndSchedule(dayEmpty : ScheduleData){
-    for (let day of this.actualListDate){
-      const lengthActualListDate = this.actualListDate.length
-      if(lengthActualListDate%7 !==0){
-        this.actualListDate.push(dayEmpty)
+    for (let day of this.employeScheduleDatesOfCurrentMonth){
+      const lengthemployeScheduleDatesOfCurrentMonth = this.employeScheduleDatesOfCurrentMonth.length
+      if(lengthemployeScheduleDatesOfCurrentMonth%7 !==0){
+        this.employeScheduleDatesOfCurrentMonth.push(dayEmpty)
       }else{
         break;
       }
@@ -94,33 +91,17 @@ export class AdministrationService {
   }
 
   getFirstNumericDayOfTheMonth() : number{
-    const startOfMonth = moment().startOf('month').add(this.actualNumberOfMonthAdded,"months").format('dddd');
-
-    if(startOfMonth === 'Tuesday'){
-      return 1
-    }
-    if(startOfMonth === 'Wednesday'){
-      return 2
-    }
-    if(startOfMonth === 'Thursday'){
-      return 3
-    }
-    if(startOfMonth === 'Friday'){
-      return 4
-    }
-    if(startOfMonth === 'Saturday'){
-      return 5
-    }
-    if(startOfMonth === 'Sunday'){
+    const firstDayOfTheMonthNumeric = moment(moment().startOf('month').add(this.actualNumberOfMonthAdded,"months")).day();
+    if(firstDayOfTheMonthNumeric === 0){
       return 6
+    }else{
+      return moment(moment().startOf('month').add(this.actualNumberOfMonthAdded,"months")).day() - 1
     }
-    return 0
   }
 
   updateEmployeData(employe:Employe){
       this.updateEmployesBackend(employe).subscribe(employeUpdated => {
         employe = employeUpdated
-        console.log(employeUpdated)
       })
   }
 
@@ -131,15 +112,20 @@ export class AdministrationService {
       }
   }
 
-  saveNewEmploye(employe : Employe){
-    return this.http.post<Employe>(`http://www.localhost:3000/api/employes/saveEmploye`,employe);
+  addNewEmploye(employe : Employe){
+    return this.http.post<Employe>(`http://www.localhost:3000/api/employes/addEmploye`,employe);
   }
+
+  addNewImage(imageEmployeData : any){
+    return this.http.post<void>('http://www.localhost:3000/api/employes/updateImage',imageEmployeData)
+  }
+
 
   getEmployes(){
     return this.http.get<Employe[]>('http://www.localhost:3000/api/employes/employes')
   }
 
   updateEmployesBackend(employe:Employe){
-    return this.http.post<Employe>(`http://www.localhost:3000/api/employes/updateAbsenceEmploye`,employe)
+    return this.http.post<Employe>(`http://www.localhost:3000/api/employes/updateEmploye`,employe)
   }
 }
