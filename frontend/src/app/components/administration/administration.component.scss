@@ -1,5 +1,5 @@
 .example-card {
-  max-width: 300px;
+  max-width: 332px;
   margin: 2em 0 2em 0;
 }
 
@@ -12,6 +12,53 @@
 
 .colorSelected{
   background-color: #00bfff;
+}
+
+.profilepic {
+  position: relative;
+  overflow: hidden;
+}
+
+.profilepic:hover .profilepic__content {
+  opacity: 1;
+}
+
+.profilepic:hover .profilepic__image {
+  opacity: .5;
+}
+
+.profilepic__image {
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity .1s ease-in-out;
+}
+
+.profilepic__content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  opacity: 0;
+  transition: opacity .2s ease-in-out;
+  cursor: pointer;
+}
+
+.profilepic__icon {
+  color: white;
+  padding-bottom: 8px;
+}
+
+.profilepic__text {
+  text-transform: uppercase;
+  font-size: 12px;
+  width: 50%;
+  text-align: center;
 }
 
 mat-card-actions{
@@ -29,4 +76,9 @@ mat-form-field{
 
 .demo-inline-calendar-card {
   width: 300px;
+}
+
+mat-card-header {
+  display: block;
+  text-align: center;
 }

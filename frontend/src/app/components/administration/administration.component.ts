@@ -20,7 +20,6 @@ export interface ScheduleData {
   styleUrls: ['./administration.component.scss']
 })
 export class AdministrationComponent implements OnInit {
-  selectedFiles?: any;
   public employees: Employe[] = []
   public employeEdit  = <Employe>{}
   constructor(private administrationService: AdministrationService,
@@ -86,23 +85,37 @@ export class AdministrationComponent implements OnInit {
     })
   }
 
-  selectFile(event:any){
-    this.selectedFiles = event.target.files[0];
-    if(this.selectedFiles){
+  findEmployeById(id: string) : Employe{
+    const employeToReturn = this.employees.find(employe => employe._id === id)
+
+    if(employeToReturn){
+      return employeToReturn
+    }else{
+      return this.employeEdit
+    }
+  }
+
+  selectFile(event:any, id?:string){
+
+    const employeToUpdate = id ? this.findEmployeById(id) : this.employeEdit
+    console.log(employeToUpdate)
+    if(event.target.files[0]){
       var self = this
-      const imageBlob = this.selectedFiles
+      const imageBlob = event.target.files[0]
       const ext = imageBlob.name.split('.').pop().toLowerCase()
       var reader = new FileReader();
       reader.readAsDataURL(imageBlob);
       reader.onloadend = function() {
         var base64data = reader.result?.toString();
         self.compressImage(base64data, 332, 415).then((compressed:any) => {
-          self.employeEdit.image = {
+          employeToUpdate.image = {
             base64 : compressed.split(',')[1],
             ext:ext
           }
-            self.employeEdit.photo = self._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
+            employeToUpdate.photo = self._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,'
           + compressed.split(',')[1]);
+
+          employeToUpdate.hasBeenUpdate = true
         })
       }
     }
@@ -126,30 +139,49 @@ export class AdministrationComponent implements OnInit {
     });
   }
 
+  generateImageData(employe:Employe, image : any){
+    const imageStoragePath = `./src/public/${employe._id}.${image.ext}`
+    const imageFrontPath= `http://localhost:3000/public/${employe._id}.${image.ext}`
+
+    const imageEmployeData  =  {
+      imagebase64 : image.base64,
+      imageStoragePath : imageStoragePath,
+      imageFrontPath : imageFrontPath,
+      _id: employe._id
+    }
+    return imageEmployeData
+  }
+
   addNewEmploye(){
     this.employeEdit.photo = ''
     const image = JSON.parse(JSON.stringify(this.employeEdit.image))
     delete this.employeEdit.image
 
     this.administrationService.addNewEmploye(this.employeEdit).subscribe((employe:Employe) =>{
-      const imageStoragePath = `./src/public/${employe._id}.${image.ext}`
-      const imageFrontPath= `http://localhost:3000/public/${employe._id}.${image.ext}`
-
-      const imageEmployeData = {
-        imagebase64 : image.base64,
-        imageStoragePath : imageStoragePath,
-        imageFrontPath : imageFrontPath,
-        _id: employe._id
-      }
-
+      const imageEmployeData = this.generateImageData(employe, image)
       this.administrationService.addNewImage(imageEmployeData).subscribe(() =>{
-        employe.photo = imageFrontPath
+        employe.photo = imageEmployeData.imageFrontPath
         this.employees = [...this.employees, employe]
       })
     })
   }
 
-  updateEmploye(employee : Employe){
+  deleteEmploye(id:string){
+    this.administrationService.deleteEmploye(id).subscribe(() => {
+      const indexEmployeToRemove = this.employees.findIndex(employe => employe._id === id)
+      this.employees.splice(indexEmployeToRemove,1)
+    })
+  }
+
+  updateEmploye(employee_ID : string){
+    const employee = this.findEmployeById(employee_ID)
+    if(employee.image){
+      const image = JSON.parse(JSON.stringify(employee.image))
+      const imageEmployeData = this.generateImageData(employee, image)
+      this.administrationService.addNewImage(imageEmployeData).subscribe(() =>{
+        employee.photo = imageEmployeData.imageFrontPath
+      })
+    }
     this.administrationService.updateEmployeData(employee)
     employee.hasBeenUpdate = false
   }

@@ -128,4 +128,10 @@ export class AdministrationService {
   updateEmployesBackend(employe:Employe){
     return this.http.post<Employe>(`http://www.localhost:3000/api/employes/updateEmploye`,employe)
   }
+
+  deleteEmploye(id:string){
+    return this.http.get<void>(`http://www.localhost:3000/api/employes/deleteEmploye/${id}`)
+  }
+
+
 }

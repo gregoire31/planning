@@ -1,6 +1,6 @@
 <div id="listCards">
 
-  <mat-card class="example-card">
+  <mat-card class="example-card" style="text-align: center;">
     <mat-card-header>
       <mat-card-title>
         <mat-form-field class="example-full-width" appearance="fill">
@@ -10,16 +10,21 @@
         </mat-form-field>
       </mat-card-title>
     </mat-card-header>
-    <mat-card-content style="text-align: center;">
-      <label *ngIf="!employeEdit.photo" style="cursor: pointer;">
-        <img src="../../../assets/plus.png" style="max-width:100px;" alt="">
+    <label *ngIf="!employeEdit.photo" style="cursor: pointer;">
+      <img src="../../../assets/plus.png" style="max-width:100px;" alt="">
+      <input #fileInput type="file" style="display:none" accept="image/*" (change)="selectFile($event)">
+    </label>
+    <div *ngIf="employeEdit.photo" class="profilepic">
+      <label>
+        <img class="profilepic__image" [src]="employeEdit.photo" alt="Photo of {{employeEdit.nom}}">
         <input #fileInput type="file" style="display:none" accept="image/*" (change)="selectFile($event)">
+        <div class="profilepic__content">
+          <span class="profilepic__text"><mat-icon style="font-size: 40px;">add_a_photo</mat-icon></span>
+        </div>
       </label>
+    </div>
 
-      <label *ngIf="employeEdit.photo" style="cursor: pointer;">
-        <img mat-card-image [src]="employeEdit.photo" alt="">
-        <input #fileInput type="file" style="display:none" accept="image/*" (change)="selectFile($event)">
-      </label>
+    <mat-card-content style="text-align: center;">
 
       <div style="text-align: center; margin-top: 2em;">
         <button mat-raised-button color="primary"
@@ -29,9 +34,8 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button class="halfWidth" [disabled]="!employeEdit.nom" mat-raised-button color="primary"
+      <button class="halfWidth" [disabled]="!employeEdit.nom || employeEdit.photo === ''" mat-raised-button color="primary"
         (click)="addNewEmploye()">SAUVEGARDER</button>
-      <button class="halfWidth" mat-raised-button color="warn">SUPPRIMER</button>
     </mat-card-actions>
   </mat-card>
 
@@ -39,7 +43,16 @@
     <mat-card-header>
       <mat-card-title>{{employee.nom}}</mat-card-title>
     </mat-card-header>
-    <img mat-card-image src="{{employee.photo}}" alt="Photo of {{employee.nom}}">
+    <div class="profilepic">
+      <label>
+
+        <img class="profilepic__image" [src]="employee.photo" alt="Photo of {{employee.nom}}">
+        <input #fileInput type="file" style="display:none" accept="image/*" (change)="selectFile($event, employee._id)">
+        <div class="profilepic__content">
+          <span class="profilepic__text"><mat-icon style="font-size: 40px;">add_a_photo</mat-icon></span>
+        </div>
+      </label>
+    </div>
     <mat-card-content>
       <button mat-raised-button color="primary"
         (click)="updatePrestations(employee._id,employee.listeDesPrestations)">Prestations</button>
@@ -49,8 +62,8 @@
     </mat-card-content>
     <mat-card-actions>
       <button class="halfWidth" [disabled]="!employee.hasBeenUpdate" mat-raised-button color="primary"
-        (click)="updateEmploye(employee)">SAUVEGARDER</button>
-      <button class="halfWidth" mat-raised-button color="warn">SUPPRIMER</button>
+        (click)="updateEmploye(employee._id)">SAUVEGARDER</button>
+      <button class="halfWidth" mat-raised-button color="warn" (click)="deleteEmploye(employee._id)">SUPPRIMER</button>
     </mat-card-actions>
   </mat-card>
 </div>

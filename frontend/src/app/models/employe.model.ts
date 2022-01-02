@@ -14,7 +14,6 @@ export interface Employe {
   jourTravaille: Array<string>;
   hasBeenUpdate?:boolean;
   absences : Array<Date>,
-  imageFormData? : FormData,
   image?: any
 }
 

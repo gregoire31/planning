@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const fs = require('fs')
+var path = require("path")
 const employeSchema = new mongoose.Schema({
     nom: String,
     photo: String,
@@ -46,14 +47,39 @@ async function addEmploye(employe){
 
 async function updateImageEmploye(imageEmployeData){
     const { _id, imagebase64, imageFrontPath, imageStoragePath} = imageEmployeData
-    if(fs.existsSync(imageStoragePath) === 'true'){
-        fs.unlink(imageStoragePath,(err => {
-            if (err) console.log(err);
-        }));
-    }
+
+    const publicFolder = path.join(__dirname, '..', 'public')
+    fs.readdir(publicFolder, (err, files) => {
+        files.forEach(file => {
+            let id = file.split('.')[0]
+            if(id === _id){
+               fs.unlinkSync(publicFolder+'/'+file) 
+            }
+        });
+      });
+
     fs.writeFile(imageStoragePath, imagebase64, 'base64', function(err) {
     });
     return Employe.findByIdAndUpdate(_id, {photo : imageFrontPath}, { new: true })
+}
+
+async function deleteEmployeById(_id) {
+
+    const publicFolder = path.join(__dirname, '..', 'public')
+    fs.readdir(publicFolder, (err, files) => {
+        files.forEach(file => {
+            let id = file.split('.')[0]
+            if(id === _id){
+               fs.unlinkSync(publicFolder+'/'+file) 
+            }
+        });
+      });
+
+
+    Employe.findByIdAndRemove(_id, function (err) {
+        if(err) console.log(err);
+        console.log("Successful deletion");
+      });
 }
 
 exports.addEmploye = addEmploye
@@ -61,3 +87,4 @@ exports.getAllEmployes = getAllEmployes
 exports.getEmploye = getEmploye
 exports.updateEmploye = updateEmploye
 exports.updateImageEmploye = updateImageEmploye
+exports.deleteEmployeById = deleteEmployeById

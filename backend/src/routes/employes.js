@@ -1,4 +1,4 @@
-const {getAllEmployes, getEmploye, addEmploye, updateEmploye, updateImageEmploye} = require('../models/employe')
+const {getAllEmployes, getEmploye, addEmploye, updateEmploye, updateImageEmploye, deleteEmployeById} = require('../models/employe')
 const express = require('express')
 const router = express.Router()
 
@@ -27,6 +27,12 @@ router.post('/updateEmploye', async(req,res) => {
 
 router.post('/updateImage', async(req,res) => {
     await updateImageEmploye(req.body)
+    res.end()
+})
+
+router.get('/deleteEmploye/:id', async(req,res) => {
+    const id = req.params.id
+    await deleteEmployeById(id)
     res.end()
 })
 
