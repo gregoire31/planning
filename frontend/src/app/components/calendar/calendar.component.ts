@@ -41,7 +41,7 @@ export class CalendarComponent implements OnInit {
   }
 
   getScheduleDocument(day:string){
-    return this.schedule.filter(schedule => schedule.day === day)[0]
+    return this.schedule.filter(schedule => moment(schedule.day).format('dddd DD MMMM') === day)[0]
   }
 
   reserveCreneau(reservation:any, index:number){
