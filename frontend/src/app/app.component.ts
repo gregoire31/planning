@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SocketService } from './services/socket.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
 constructor(
   private socketService : SocketService
-) { }
+) {
+  uuidv4();
+}
 
 ngOnInit(): void {
   this.socketService.setupSocketConnection();

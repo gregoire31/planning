@@ -1,8 +1,8 @@
-const express = require('express')
-const app = express()
 const moment = require('moment');
 const shell = require('shelljs')
 const fs = require('fs');
+const dotenv = require('dotenv');
+dotenv.config();
 
 for(v = 0; v < 5; v++){
     let creneauToRecord2 = []
@@ -37,11 +37,13 @@ for(v = 0; v < 5; v++){
     }
     
     var jsonContent = JSON.stringify(creneauToRecord2);
-     
-    const mongooseCommand = `mongoimport --db mongo-planning --collection ${nameOfMongoCollection} --drop --file exercise-data.json --jsonArray`
+    
+    const mongooseCommand = `mongoimport --uri "mongodb://${process.env.DATABASE_HOST}" --db mongo-planning --collection ${nameOfMongoCollection} --drop --file exercise-data.json --jsonArray`
+    const mongooseImportMassages = `mongoimport --uri "mongodb://${process.env.DATABASE_HOST}" --db mongo-planning --collection massages --drop --file massages.json --jsonArray`
+    const mongooseImportEmployes = `mongoimport --uri "mongodb://${process.env.DATABASE_HOST}" --db mongo-planning --collection employes --drop --file employes.json --jsonArray`
     fs.writeFileSync("exercise-data.json", jsonContent)
+    shell.exec(mongooseImportMassages)
+    shell.exec(mongooseImportEmployes)
     shell.exec(mongooseCommand)
 
 }
-
-app.listen(2500, () => console.log(`listen on port 2500`))

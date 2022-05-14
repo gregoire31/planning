@@ -6,6 +6,8 @@ const mongoose = require('mongoose')
 const expressJWT = require('express-jwt');
 const app = express()
 const server = http.createServer(app);
+const dotenv = require('dotenv');
+dotenv.config();
 require('dotenv').config();
 
 app.use(cors());
@@ -30,7 +32,7 @@ const employes = require('./routes/employes')
 const secret = process.env.SECRET_TOKEN;
 
 mongoose
-.connect('mongodb://localhost/mongo-planning')
+.connect(`mongodb://${process.env.DATABASE_HOST}/mongo-planning`)
 .then(() => console.log('connected to MongoDb'))
 .catch((err => console.error('could not connect to mongoDb', err)))
 

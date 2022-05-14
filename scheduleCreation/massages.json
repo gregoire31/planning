@@ -1,0 +1,41 @@
+[{
+  "_id": {
+    "$oid": "619026968a03ad3f9c868caf"
+  },
+  "prix": 100,
+  "personnelRequis": 1,
+  "nom": "Suedois",
+  "duree": 0.5
+},{
+  "_id": {
+    "$oid": "619026968a03ad3f9c868cb0"
+  },
+  "prix": 120,
+  "personnelRequis": 1,
+  "nom": "Californien",
+  "duree": 1
+},{
+  "_id": {
+    "$oid": "619026968a03ad3f9c868cb1"
+  },
+  "prix": 250,
+  "personnelRequis": 2,
+  "nom": "Thailandais",
+  "duree": 1.5
+},{
+  "_id": {
+    "$oid": "619026968a03ad3f9c868cb2"
+  },
+  "prix": 150,
+  "personnelRequis": 1,
+  "nom": "Sportif",
+  "duree": 1
+},{
+  "_id": {
+    "$oid": "619026968a03ad3f9c868cb3"
+  },
+  "prix": 180,
+  "personnelRequis": 1,
+  "nom": "Francais",
+  "duree": 2
+}]

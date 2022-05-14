@@ -1,0 +1,22 @@
+version: "3.0"
+services:
+  angular:
+    build: frontend
+    ports:
+      - "4200:80"
+  express:
+    build: backend
+    ports:
+      - "3000:3000"
+    environment:
+     - DATABASE_HOST=database
+    links:
+      - database
+  schedule:
+    build: scheduleCreation
+    environment:
+     - DATABASE_HOST=database
+  database:
+    image: mongo:5.0.3
+    ports: 
+      - "27017:27017"
