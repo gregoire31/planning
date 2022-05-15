@@ -8,7 +8,8 @@ import { CalendarModule } from '../calendar/calendar.module';
 import { SocketService } from 'src/app/services/socket.service';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ConfirmationReservationDialogComponent } from 'src/app/dialog-components/confirmation-reservation-dialog/confirmation-reservation-dialog.component';
-
+import {MatSelectModule} from '@angular/material/select';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 @NgModule({
   declarations: [PlanningComponent, ConfirmationReservationDialogComponent],
   imports: [
@@ -16,8 +17,10 @@ import { ConfirmationReservationDialogComponent } from 'src/app/dialog-component
     MatButtonModule,
     MatCardModule,
     CalendarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule,FormsModule,ReactiveFormsModule
   ],
-  providers:[MassageService, SocketService]
+  providers:[MassageService, SocketService],
+  entryComponents: [ConfirmationReservationDialogComponent]
 })
 export class PlanningModule { }

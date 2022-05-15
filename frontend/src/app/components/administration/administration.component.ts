@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PrestationDialogComponent } from 'src/app/dialog-components/prestation-dialog/prestation-dialog.component';
 import { ScheduleDialogComponent } from 'src/app/dialog-components/schedule-dialog/schedule-dialog.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { MassageService } from 'src/app/services/massage.service';
 
 export interface ScheduleData {
   date: Date,
@@ -23,46 +24,24 @@ export class AdministrationComponent implements OnInit {
   public employees: Employe[] = []
   public employeEdit  = <Employe>{}
   constructor(private administrationService: AdministrationService,
-    private dialog: MatDialog, private _sanitizer: DomSanitizer) { }
+    private dialog: MatDialog, private _sanitizer: DomSanitizer,private massageService : MassageService) { }
 
   ngOnInit(): void {
-    this.employeEdit = {
-      _id : '0',
-      absences : [],
-      jourTravaille : [],
-      listeDesPrestations : [
-        {
-          id:"619026968a03ad3f9c868caf",
-          nom: "Suedois",
-          acquis:false
-        },
-        {
-          id:"619026968a03ad3f9c868cb0",
-          nom: "Californien",
-          acquis:false
-        },
-        {
-          id:"619026968a03ad3f9c868cb1",
-          nom: "Thailandais",
-          acquis:false
-        },
-        {
-          id:"619026968a03ad3f9c868cb2",
-          nom: "Sportif",
-          acquis:false
-        },
-        {
-          id:"619026968a03ad3f9c868cb3",
-          nom: "Francais",
-          acquis:false
-        }
-      ],
-      nom : '',
-      pauseEntrePrestation : 0,
-      photo : '',
-      profession : 'masseuse',
-      hasBeenUpdate : false
-    }
+    this.massageService.getAllMassages().subscribe((massages) => {
+      const listeDesPrestations : Prestation[] = massages.map(massage => Object.assign(massage,{acquis : false}))
+      this.employeEdit = {
+        _id : '0',
+        absences : [],
+        jourTravaille : [],
+        listeDesPrestations : listeDesPrestations,
+        nom : '',
+        pauseEntrePrestation : 0,
+        photo : '',
+        profession : 'masseuse',
+        hasBeenUpdate : false
+      }
+    })
+
     this.administrationService.getEmployes().subscribe(employes => {
       this.employees = employes
     })

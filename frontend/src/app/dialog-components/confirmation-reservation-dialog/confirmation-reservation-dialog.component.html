@@ -30,6 +30,19 @@
       <p>{{data.reservation.slot}}</p>
     </div>
 
+
+    <div style="display: flex; justify-content: space-between; padding: 0.5em">
+      <p>choix du personnel :</p>
+      <mat-form-field appearance="fill">
+      <mat-select>
+        <mat-option *ngFor="let employe of data.employeesAvailable" [value]="employe.nom">
+          <img with="40" height="40" [src]="employe.photo">
+          {{employe.nom}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    </div>
+
     <div style="display: flex; justify-content: space-between; padding: 1em" mat-dialog-actions>
       <button mat-raised-button color="primary" [mat-dialog-close]="true">Valider</button>
       <button mat-raised-button color="primary" cdkFocusInitial [mat-dialog-close]="false">Annuler</button>

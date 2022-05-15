@@ -4,42 +4,27 @@
   },
   "listeDesPrestations": [
     {
-      "_id": {
-        "$oid": "61cb02756bfb1034bc87f51b"
-      },
-      "id": "619026968a03ad3f9c868caf",
+      "_id": "619026968a03ad3f9c868caf",
       "nom": "Suedois",
       "acquis": false
     },
     {
-      "_id": {
-        "$oid": "61cb02756bfb1034bc87f51a"
-      },
-      "id": "619026968a03ad3f9c868cb0",
+      "_id": "619026968a03ad3f9c868cb0",
       "nom": "Californien",
       "acquis": true
     },
     {
-      "_id": {
-        "$oid": "61cb02756bfb1034bc87f519"
-      },
-      "id": "619026968a03ad3f9c868cb1",
+      "_id": "619026968a03ad3f9c868cb1",
       "nom": "Thailandais",
       "acquis": false
     },
     {
-      "_id": {
-        "$oid": "61cb02756bfb1034bc87f518"
-      },
-      "id": "619026968a03ad3f9c868cb2",
+      "_id": "619026968a03ad3f9c868cb2",
       "nom": "Sportif",
       "acquis": false
     },
     {
-      "_id": {
-        "$oid": "61cb02756bfb1034bc87f517"
-      },
-      "id": "619026968a03ad3f9c868cb3",
+      "_id": "619026968a03ad3f9c868cb3",
       "nom": "Francais",
       "acquis": false
     }
@@ -73,42 +58,27 @@
   },
   "listeDesPrestations": [
     {
-      "_id": {
-        "$oid": "61cb02aa6bfb1034bc87f521"
-      },
-      "id": "619026968a03ad3f9c868caf",
+      "_id": "619026968a03ad3f9c868caf",
       "nom": "Suedois",
       "acquis": true
     },
     {
-      "_id": {
-        "$oid": "61cb02aa6bfb1034bc87f520"
-      },
-      "id": "619026968a03ad3f9c868cb0",
+      "_id": "619026968a03ad3f9c868cb0",
       "nom": "Californien",
       "acquis": true
     },
     {
-      "_id": {
-        "$oid": "61cb02aa6bfb1034bc87f51f"
-      },
-      "id": "619026968a03ad3f9c868cb1",
+      "_id": "619026968a03ad3f9c868cb1",
       "nom": "Thailandais",
       "acquis": false
     },
     {
-      "_id": {
-        "$oid": "61cb02aa6bfb1034bc87f51e"
-      },
-      "id": "619026968a03ad3f9c868cb2",
+      "_id": "619026968a03ad3f9c868cb2",
       "nom": "Sportif",
       "acquis": false
     },
     {
-      "_id": {
-        "$oid": "61cb02aa6bfb1034bc87f51d"
-      },
-      "id": "619026968a03ad3f9c868cb3",
+      "_id": "619026968a03ad3f9c868cb3",
       "nom": "Francais",
       "acquis": false
     }
@@ -126,42 +96,28 @@
   },
   "listeDesPrestations": [
     {
-      "_id": {
-        "$oid": "61cb02bb6bfb1034bc87f527"
-      },
-      "id": "619026968a03ad3f9c868caf",
+      "_id": "619026968a03ad3f9c868caf",
       "nom": "Suedois",
       "acquis": false
     },
     {
-      "_id": {
-        "$oid": "61cb02bb6bfb1034bc87f526"
-      },
-      "id": "619026968a03ad3f9c868cb0",
+      "_id": "619026968a03ad3f9c868cb0",
       "nom": "Californien",
       "acquis": false
     },
     {
-      "_id": {
-        "$oid": "61cb02bb6bfb1034bc87f525"
-      },
-      "id": "619026968a03ad3f9c868cb1",
+      "_id": "619026968a03ad3f9c868cb1",
       "nom": "Thailandais",
       "acquis": true
     },
     {
-      "_id": {
-        "$oid": "61cb02bb6bfb1034bc87f524"
-      },
-      "id": "619026968a03ad3f9c868cb2",
+      "_id": "619026968a03ad3f9c868cb2",
       "nom": "Sportif",
       "acquis": true
     },
     {
-      "_id": {
-        "$oid": "61cb02bb6bfb1034bc87f523"
-      },
-      "id": "619026968a03ad3f9c868cb3",
+      
+      "_id": "619026968a03ad3f9c868cb3",
       "nom": "Francais",
       "acquis": false
     }

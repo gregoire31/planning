@@ -1,3 +1,4 @@
+import { Massage } from './massage.model';
 
 export interface EmployeAbsence {
   id: string,
@@ -17,9 +18,7 @@ export interface Employe {
   image?: any
 }
 
-export interface Prestation  {
-  id:string,
-  nom:string,
+export interface Prestation extends  Massage {
   acquis:boolean
 }
 

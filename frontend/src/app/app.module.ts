@@ -11,7 +11,7 @@ import { AuthInterceptorService } from 'src/_helpers/auth-interceptor.service';
 import { PlanningModule } from './components/planning/planning.module';
 import { MenuModule } from './components/menu/menu.module';
 import { AdministrationModule } from './components/administration/administration.module';
-
+import {MatSelectModule} from '@angular/material/select'
 @NgModule({
   declarations: [
     AppComponent
@@ -25,7 +25,7 @@ import { AdministrationModule } from './components/administration/administration
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     MenuModule,
-    AdministrationModule
+    AdministrationModule,MatSelectModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],

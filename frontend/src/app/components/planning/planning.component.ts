@@ -6,6 +6,8 @@ import { ConfirmationReservationDialogComponent } from 'src/app/dialog-component
 import { ReservationSlotData } from 'src/app/models/reservation.model';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { ToastrService } from 'ngx-toastr';
+import { Employe } from 'src/app/models/employe.model';
+import { AdministrationService } from 'src/app/services/administration.service';
 
 @Component({
   selector: 'app-planning',
@@ -15,16 +17,19 @@ import { ToastrService } from 'ngx-toastr';
 export class PlanningComponent implements OnInit {
   public massages = <Massage[]>[]
   public massageSelected = <Massage>{}
-
+  public employes: Employe[] = []
   constructor(
     private massageService : MassageService,
     private dialog: MatDialog,
     private reservationService : ReservationService,
-    private toastService : ToastrService
+    private toastService : ToastrService,
+    private administrationService : AdministrationService
   ) { }
 
   ngOnInit(): void {
-
+    this.administrationService.getEmployes().subscribe(employees => {
+      this.employes = employees
+    })
     this.massageService.getAllMassages().subscribe((massages:Massage[]) => {
       massages.forEach(massage => {
         massage.image = `/assets/${massage.nom}.png`
@@ -37,11 +42,20 @@ export class PlanningComponent implements OnInit {
     this.massageSelected = massage
   }
 
+  getEmployeesMatchWithMassageSelected(): Employe[]{
+
+    return this.employes.filter(employe => employe.listeDesPrestations.some(prestation => {
+      if(prestation._id === this.massageSelected._id) return prestation.acquis
+      return false
+    }))
+  }
+
   bookMassage(reservation: ReservationSlotData){
     const confirmDialog = this.dialog.open(ConfirmationReservationDialogComponent, {
       data: {
         massage: this.massageSelected,
-        reservation:reservation
+        reservation:reservation,
+        employeesAvailable : this.getEmployeesMatchWithMassageSelected()
       }
     });
     confirmDialog.afterClosed().subscribe(result => {
