@@ -6,7 +6,8 @@ reservationSchema = new mongoose.Schema({
     hourSlot: Number,
     isBooked: Boolean,
     idUser : String,
-    idMassage: String
+    idMassage: String,
+    idSlot:String
     }]
 })
 
@@ -15,10 +16,21 @@ async function getAllReservations (date){
 }
 
 async function saveReservation(reservation){
-    const {document , dateSchema} = reservation
-    const idModel = document._id
-    const Reservation = mongoose.model(dateSchema, reservationSchema);
-    return Reservation.findByIdAndUpdate(idModel, document, {new: true});
+    const idModel = reservation.idModel
+    const Reservation = mongoose.model(reservation.dateSchema, reservationSchema);
+    const daySlots = await Reservation.findById(idModel)
+
+    let daySlotsUpdated = JSON.parse(JSON.stringify(daySlots))
+        
+        daySlotsUpdated.daySlot.forEach(daySlot => {
+            if(daySlot.idSlot === reservation.idSlot){
+                daySlot.isBooked = reservation.isBooked,
+                daySlot.idMassage =  reservation.idMassage,
+                daySlot.idUser = reservation.idUser               
+            }
+        })
+    return Reservation.findByIdAndUpdate(idModel, daySlotsUpdated, {new: true});
+
 }
 
 exports.getAllReservations = getAllReservations

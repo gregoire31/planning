@@ -3,7 +3,7 @@ import { MassageService } from 'src/app/services/massage.service';
 import { Massage } from 'src/app/models/massage.model';
 import {MatDialog} from '@angular/material/dialog';
 import { ConfirmationReservationDialogComponent } from 'src/app/dialog-components/confirmation-reservation-dialog/confirmation-reservation-dialog.component';
-import { ReservationData } from 'src/app/models/reservation.model';
+import { ReservationSlotData } from 'src/app/models/reservation.model';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -37,7 +37,7 @@ export class PlanningComponent implements OnInit {
     this.massageSelected = massage
   }
 
-  bookMassage(reservation: ReservationData){
+  bookMassage(reservation: ReservationSlotData){
     const confirmDialog = this.dialog.open(ConfirmationReservationDialogComponent, {
       data: {
         massage: this.massageSelected,
@@ -46,12 +46,10 @@ export class PlanningComponent implements OnInit {
     });
     confirmDialog.afterClosed().subscribe(result => {
       if (result === true) {
-        delete reservation.date
+        delete reservation.day
         delete reservation.slot
         this.reservationService.saveMassage(reservation).subscribe()
         this.toastService.success('Réservation enregistrée')
-      }else{
-        this.toastService.error('Veuillez sélectionner un massage')
       }
     });
   }

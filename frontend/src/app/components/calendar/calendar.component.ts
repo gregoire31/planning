@@ -1,9 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ReservationService } from 'src/app/services/reservation.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { Reservation, dateBooking, ReservationData } from 'src/app/models/reservation.model';
+import { Reservation, dateBooking, ReservationSlotData } from 'src/app/models/reservation.model';
 import * as moment from 'moment';
 import { Massage } from 'src/app/models/massage.model';
+import { ToastrService } from 'ngx-toastr';
+import { translateEnglishDays, translateEnglishMonths } from 'src/app/models/date.model';
 
 @Component({
   selector: 'app-calendar',
@@ -13,27 +15,45 @@ import { Massage } from 'src/app/models/massage.model';
 
 export class CalendarComponent implements OnInit {
   @Input() massageSelected: Massage = <Massage>{}
-  @Output() massageEvent = new EventEmitter<ReservationData>();
+  @Output() massageEvent = new EventEmitter<ReservationSlotData>();
 
   public incrementNumberWeek : number = 0
   public schedule : Reservation[] = []
   public currentMonday : string = ''
   private dateBooking : dateBooking = <dateBooking>{}
+  public currentMondayFrench : string = ''
   constructor(
     private reservationService : ReservationService,
-    private authService : AuthService
+    private authService : AuthService,
+    private toastService : ToastrService
   ) { }
 
   ngOnInit(): void {
     this.currentMonday = moment(moment().startOf('week')).add((1),'day').format("YYYY-MM-DD")
+    this.currentMondayFrench = `${this.convertToFrechDate(this.formateDate(this.currentMonday))} ${moment(this.currentMonday).format('YYYY')}`
     this.reservationService.getReservations(this.currentMonday)
     this.reservationService.reservations$.subscribe(planning => {
-      this.schedule = planning.sort(function compare(a:any, b:any) {
-        var dateA = new Date(a.day).getTime();
-        var dateB = new Date(b.day).getTime();
-        return dateA - dateB;
-      });
+      this.schedule = this.orderByDate(planning)
+      this.schedule = this.addLitteralHours(planning)
     })
+  }
+
+  private orderByDate(planning: Reservation[]) {
+    return planning.sort(function compare(a:any, b:any) {
+      var dateA = new Date(a.day).getTime();
+      var dateB = new Date(b.day).getTime();
+      return dateA - dateB;
+    });
+  }
+
+  private addLitteralHours(planning: Reservation[]){
+    planning.forEach(day => {
+      day.daySlot.forEach(slot => {
+        slot.litteralHour = this.convertLiteralHour(slot.hourSlot)
+      });
+
+    })
+    return planning
   }
 
   formateDate(date:any){
@@ -41,25 +61,35 @@ export class CalendarComponent implements OnInit {
   }
 
   getScheduleDocument(day:string){
-    return this.schedule.filter(schedule => moment(schedule.day).format('dddd DD MMMM') === day)[0]
+    return this.schedule.filter(schedule => this.formateDate(schedule.day) === day)[0]
   }
 
   reserveCreneau(reservation:any, index:number){
-    let daySelected = this.schedule.find((schedule:any) => schedule.day === reservation)
+    if(Object.keys(this.massageSelected).length === 0){
+      this.toastService.error('Veuillez sélectionner un massage')
+      return
+    }
+    let daySelected = JSON.parse(JSON.stringify(this.schedule.find((schedule:any) => schedule.day === reservation)))
+
+
     if(daySelected && daySelected.daySlot[index].isBooked === false){
-      daySelected.daySlot[index].isBooked = true
-      daySelected.daySlot[index].idMassage = this.massageSelected._id
-      daySelected.daySlot[index].idUser = this.authService.getUser().value._id
       this.dateBooking = {
         slot : daySelected.daySlot[index].hourSlot,
         day: this.formateDate(daySelected.day)
       }
-      this.saveReservation()
-    }
-  }
 
-  getWeek() : string{
-    return moment(this.currentMonday).format('DD MMMM YYYY')
+      const reservation :ReservationSlotData = {
+        isBooked : true,
+        idMassage : this.massageSelected._id,
+        idUser : this.authService.getUser().value._id,
+        idSlot : daySelected.daySlot[index].idSlot,
+        idModel : this.getScheduleDocument(this.dateBooking.day)._id,
+        dateSchema : this.currentMonday,
+        slot : this.convertLiteralHour(daySelected.daySlot[index].hourSlot),
+        day: this.convertToFrechDate(this.formateDate(daySelected.day))
+      }
+      this.massageEvent.emit(reservation)
+    }
   }
 
   checkifOnePropertyisUndefined(objectToCheck:any) : boolean{
@@ -75,6 +105,7 @@ export class CalendarComponent implements OnInit {
   public incrementWeek(){
     this.incrementNumberWeek = this.incrementNumberWeek+1
     this.currentMonday = moment(moment().startOf('week')).add((1 + (this.incrementNumberWeek * 7)),'day').format("YYYY-MM-DD")
+    this.currentMondayFrench = `${this.convertToFrechDate(this.formateDate(this.currentMonday))} ${moment(this.currentMonday).format('YYYY')}`
     this.reservationService.getReservations(this.currentMonday)
   }
 
@@ -82,21 +113,20 @@ export class CalendarComponent implements OnInit {
     if(this.incrementNumberWeek > 0){
       this.incrementNumberWeek = this.incrementNumberWeek-1
       this.currentMonday = moment(moment().startOf('week')).add((1 + (this.incrementNumberWeek * 7)),'day').format("YYYY-MM-DD")
+      this.currentMondayFrench = `${this.convertToFrechDate(this.formateDate(this.currentMonday))} ${moment(this.currentMonday).format('YYYY')}`
       this.reservationService.getReservations(this.currentMonday)
     }
   }
 
-  saveReservation(){
-    const scheduleDocument = this.getScheduleDocument(this.dateBooking.day)
+  public convertToFrechDate(englishDate : string){
+    const dayName = englishDate.split(' ')[0]
+    const dayNumber = englishDate.split(' ')[1]
+    const monthName = englishDate.split(' ')[2]
+    return `${translateEnglishDays[dayName]} ${dayNumber} ${translateEnglishMonths[monthName]}`
+  }
 
-      let reservationToSave : ReservationData = {
-        document: scheduleDocument,
-        dateSchema : this.currentMonday,
-        date: this.dateBooking.day,
-        slot: this.dateBooking.slot
-      }
-
-      this.massageEvent.emit(reservationToSave)
+  public convertLiteralHour (hour: number) : string{
+    return hour % 1 === 0 ? `${hour} h` : `${Math.trunc(hour)} h 30`
   }
 
 }

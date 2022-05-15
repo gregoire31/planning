@@ -1,6 +1,6 @@
 <div class="headTable">
   <mat-icon (click)="decrementWeek()" class="pointer">chevron_left</mat-icon>
-  <span> Semaine du  {{ getWeek() }}</span>
+  <span> Semaine du  {{ currentMondayFrench }}</span>
   <mat-icon (click)="incrementWeek()" class="pointer">chevron_right</mat-icon>
 </div>
 
@@ -8,10 +8,10 @@
   <div style="display: flex; justify-content: space-between;">
     <div style="text-align: center; border: 2px solid grey; width: 100%;" *ngFor="let reservation of schedule">
       <div style="padding: 2em;">
-        {{ this.formateDate(reservation.day) }}
+        {{ this.convertToFrechDate(this.formateDate(reservation.day)) }}
       </div>
       <div [ngClass]="day.isBooked ? 'crimson' : ''" (click)="reserveCreneau(reservation.day,index)" style="padding: 1em; border-top:1px solid grey;" *ngFor="let day of reservation.daySlot; let index = index">
-        {{day.hourSlot}}
+        {{day.litteralHour}}
       </div>
     </div>
   </div>

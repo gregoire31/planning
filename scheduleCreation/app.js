@@ -3,6 +3,7 @@ const shell = require('shelljs')
 const fs = require('fs');
 const dotenv = require('dotenv');
 dotenv.config();
+const  mongoose = require('mongoose');
 
 for(v = 0; v < 5; v++){
     let creneauToRecord2 = []
@@ -26,7 +27,8 @@ for(v = 0; v < 5; v++){
                 }
                 daySlot.push({
                     hourSlot,
-                    isBooked: false
+                    isBooked: false,
+                    idSlot : new mongoose.Types.ObjectId()
                 })
             }
         }
