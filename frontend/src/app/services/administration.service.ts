@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Employe, EmployeAbsence } from '../models/employe.model';
+import { Employe, EmployeAbsence, PrestationEmploye } from '../models/employe.model';
 import * as moment from 'moment';
 import { ScheduleData } from '../components/administration/administration.component';
 import { HttpClient } from '@angular/common/http';
@@ -132,6 +132,10 @@ export class AdministrationService {
 
   deleteEmploye(id:string){
     return this.http.get<void>(`http://www.localhost:3000/api/employes/deleteEmploye/${id}`)
+  }
+
+  addReservationToEmploye(prestationEmploye: PrestationEmploye){
+    return this.http.post<Employe>(`http://www.localhost:3000/api/employes/addReservationToEmploye`,prestationEmploye)
   }
 
 

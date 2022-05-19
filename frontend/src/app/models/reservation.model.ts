@@ -24,7 +24,7 @@ export interface ReservationSlotData {
   idPrestation : string,
   idUser : string,
   idSlot : string,
-  idModel : string,
+  idReservation : string,
   dateSchema : string,
   day?: string,
   slot?: string,

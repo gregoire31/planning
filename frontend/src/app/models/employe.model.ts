@@ -35,3 +35,8 @@ enum JourTravaille {
   'Samedi',
   'Dimanche'
 }
+
+export interface PrestationEmploye{
+  idReservation: string;
+  idEmploye: string;
+}

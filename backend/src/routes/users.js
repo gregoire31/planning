@@ -1,4 +1,4 @@
-const { signUp, getUserByEmail} = require('../models/user')
+const { signUp, getUserByEmail, addReservationToUser} = require('../models/user')
 const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs');
@@ -16,6 +16,12 @@ router.post('/signUp',async(req,res)=> {
     }else{
         res.status(200).json({message:'OK'});
     }
+})
+
+router.post('/addReservationToUser', async(req,res) => {
+    const reservationUser = req.body
+    const userUpdated = await addReservationToUser(reservationUser)
+    res.status(200).json(userUpdated)
 })
 
 

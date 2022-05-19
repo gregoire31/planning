@@ -7,8 +7,9 @@ import { ReservationService } from 'src/app/services/reservation.service';
 import { ToastrService } from 'ngx-toastr';
 import { Employe } from 'src/app/models/employe.model';
 import { AdministrationService } from 'src/app/services/administration.service';
-import { combineLatest } from 'rxjs/operators';
 import { Prestation } from 'src/app/models/prestation.model';
+import { UserService } from 'src/app/services/user.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-planning',
@@ -24,7 +25,8 @@ export class PlanningComponent implements OnInit {
     private dialog: MatDialog,
     private reservationService : ReservationService,
     private toastService : ToastrService,
-    private administrationService : AdministrationService
+    private administrationService : AdministrationService,
+    private  userService : UserService
   ) { }
 
   ngOnInit(): void {
@@ -64,8 +66,11 @@ export class PlanningComponent implements OnInit {
         reservation.employeId = result.employee._id
         delete reservation.day
         delete reservation.slot
-        // combineLatest(this.reservationService.savePrestation(reservation), this.administrationService.addPrestationToEmploye({employeId : result.employee._id, prestationId: }))
-        this.reservationService.savePrestation(reservation).subscribe()
+        combineLatest(
+        this.reservationService.saveReservation(reservation),
+        this.administrationService.addReservationToEmploye({idEmploye : result.employee._id, idReservation : reservation.idReservation}),
+        this.userService.addReservationToUser({idReservation: reservation.idReservation, idUser : reservation.idUser}))
+        .subscribe()
         this.toastService.success('Réservation enregistrée')
       }
     });

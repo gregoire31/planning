@@ -83,7 +83,7 @@ export class CalendarComponent implements OnInit {
         idPrestation : this.prestationSelected._id,
         idUser : this.authService.getUser().value._id,
         idSlot : daySelected.daySlot[index].idSlot,
-        idModel : this.getScheduleDocument(this.dateBooking.day)._id,
+        idReservation : this.getScheduleDocument(this.dateBooking.day)._id,
         dateSchema : this.currentMonday,
         slot : this.convertLiteralHour(daySelected.daySlot[index].hourSlot),
         day: this.convertToFrechDate(this.formateDate(daySelected.day))
