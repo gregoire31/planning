@@ -27,5 +27,6 @@ export interface ReservationSlotData {
   idModel : string,
   dateSchema : string,
   day?: string,
-  slot?: string
+  slot?: string,
+  employeId? : string
 }

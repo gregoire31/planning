@@ -8,6 +8,7 @@ import { ReservationService } from 'src/app/services/reservation.service';
 import { ToastrService } from 'ngx-toastr';
 import { Employe } from 'src/app/models/employe.model';
 import { AdministrationService } from 'src/app/services/administration.service';
+import { combineLatest } from 'rxjs/operators';
 
 @Component({
   selector: 'app-planning',
@@ -59,9 +60,11 @@ export class PlanningComponent implements OnInit {
       }
     });
     confirmDialog.afterClosed().subscribe(result => {
-      if (result === true) {
+      if (result && result.close === true) {
+        reservation.employeId = result.employee._id
         delete reservation.day
         delete reservation.slot
+        // combineLatest(this.reservationService.saveMassage(reservation), this.administrationService.addPrestationToEmploye({employeId : result.employee._id, prestationId: }))
         this.reservationService.saveMassage(reservation).subscribe()
         this.toastService.success('Réservation enregistrée')
       }
