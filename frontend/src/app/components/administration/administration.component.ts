@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Employe } from 'src/app/models/employe.model';
-import { Prestation } from 'src/app/models/employe.model';
 import { AdministrationService } from 'src/app/services/administration.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PrestationDialogComponent } from 'src/app/dialog-components/prestation-dialog/prestation-dialog.component';
 import { ScheduleDialogComponent } from 'src/app/dialog-components/schedule-dialog/schedule-dialog.component';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MassageService } from 'src/app/services/massage.service';
+import { PrestationService } from 'src/app/services/prestation.service';
+import { Prestation } from 'src/app/models/prestation.model';
 
 export interface ScheduleData {
   date: Date,
@@ -24,11 +24,11 @@ export class AdministrationComponent implements OnInit {
   public employees: Employe[] = []
   public employeEdit  = <Employe>{}
   constructor(private administrationService: AdministrationService,
-    private dialog: MatDialog, private _sanitizer: DomSanitizer,private massageService : MassageService) { }
+  private dialog: MatDialog, private _sanitizer: DomSanitizer,private prestationService : PrestationService) { }
 
   ngOnInit(): void {
-    this.massageService.getAllMassages().subscribe((massages) => {
-      const listeDesPrestations : Prestation[] = massages.map(massage => Object.assign(massage,{acquis : false}))
+    this.prestationService.getAllPrestations().subscribe((prestations) => {
+      const listeDesPrestations : Prestation[] = prestations.map(prestation => Object.assign(prestation,{acquis : false}))
       this.employeEdit = {
         _id : '0',
         absences : [],

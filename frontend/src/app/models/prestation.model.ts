@@ -1,4 +1,4 @@
-export interface Massage {
+export interface Prestation {
   nom: string;
   prix: number;
   personnelRequis: number;
@@ -6,5 +6,6 @@ export interface Massage {
   _id: string;
   image?: string;
   cols?:number;
-  rows?:number
+  rows?:number;
+  acquis?:boolean
 }

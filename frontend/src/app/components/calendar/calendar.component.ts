@@ -3,7 +3,7 @@ import { ReservationService } from 'src/app/services/reservation.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Reservation, dateBooking, ReservationSlotData } from 'src/app/models/reservation.model';
 import * as moment from 'moment';
-import { Massage } from 'src/app/models/massage.model';
+import { Prestation } from 'src/app/models/prestation.model';
 import { ToastrService } from 'ngx-toastr';
 import { translateEnglishDays, translateEnglishMonths } from 'src/app/models/date.model';
 
@@ -14,8 +14,8 @@ import { translateEnglishDays, translateEnglishMonths } from 'src/app/models/dat
 })
 
 export class CalendarComponent implements OnInit {
-  @Input() massageSelected: Massage = <Massage>{}
-  @Output() massageEvent = new EventEmitter<ReservationSlotData>();
+  @Input() prestationSelected: Prestation = <Prestation>{}
+  @Output() prestationEvent = new EventEmitter<ReservationSlotData>();
 
   public incrementNumberWeek : number = 0
   public schedule : Reservation[] = []
@@ -65,8 +65,8 @@ export class CalendarComponent implements OnInit {
   }
 
   reserveCreneau(reservation:any, index:number){
-    if(Object.keys(this.massageSelected).length === 0){
-      this.toastService.error('Veuillez sélectionner un massage')
+    if(Object.keys(this.prestationSelected).length === 0){
+      this.toastService.error('Veuillez sélectionner un prestation')
       return
     }
     let daySelected = JSON.parse(JSON.stringify(this.schedule.find((schedule:any) => schedule.day === reservation)))
@@ -80,7 +80,7 @@ export class CalendarComponent implements OnInit {
 
       const reservation :ReservationSlotData = {
         isBooked : true,
-        idMassage : this.massageSelected._id,
+        idPrestation : this.prestationSelected._id,
         idUser : this.authService.getUser().value._id,
         idSlot : daySelected.daySlot[index].idSlot,
         idModel : this.getScheduleDocument(this.dateBooking.day)._id,
@@ -88,7 +88,7 @@ export class CalendarComponent implements OnInit {
         slot : this.convertLiteralHour(daySelected.daySlot[index].hourSlot),
         day: this.convertToFrechDate(this.formateDate(daySelected.day))
       }
-      this.massageEvent.emit(reservation)
+      this.prestationEvent.emit(reservation)
     }
   }
 

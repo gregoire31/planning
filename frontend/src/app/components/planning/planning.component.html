@@ -1,9 +1,9 @@
 <div id="listCards">
-  <mat-card [ngClass]="massage._id === massageSelected._id ? 'colorSelected' : ''  " *ngFor="let massage of massages" class="example-card">
+  <mat-card [ngClass]="prestation._id === prestationSelected._id ? 'colorSelected' : ''  " *ngFor="let prestation of prestations" class="example-card">
     <mat-card-header>
-      <mat-card-title>{{massage.nom}}</mat-card-title>
+      <mat-card-title>{{prestation.nom}}</mat-card-title>
     </mat-card-header>
-    <img mat-card-image src="{{massage.image}}">
+    <img mat-card-image src="{{prestation.image}}">
     <mat-card-content>
       <p>
         The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
@@ -12,9 +12,9 @@
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <button (click)="selectMassage(massage)" mat-raised-button color="primary">Sélectionnez</button>
+      <button (click)="selectPrestation(prestation)" mat-raised-button color="primary">Sélectionnez</button>
     </mat-card-actions>
   </mat-card>
 </div>
 
-<app-calendar [massageSelected]="massageSelected" (massageEvent)="bookMassage($event)"></app-calendar>
+<app-calendar [prestationSelected]="prestationSelected" (prestationEvent)="bookPrestation($event)"></app-calendar>

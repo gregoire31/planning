@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Employe, Prestation, EmployeAbsence } from '../models/employe.model';
+import { Employe, EmployeAbsence } from '../models/employe.model';
 import * as moment from 'moment';
 import { ScheduleData } from '../components/administration/administration.component';
 import { HttpClient } from '@angular/common/http';
+import { Prestation } from '../models/prestation.model';
 
 
 @Injectable()

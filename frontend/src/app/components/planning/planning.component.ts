@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MassageService } from 'src/app/services/massage.service';
-import { Massage } from 'src/app/models/massage.model';
+import { PrestationService } from 'src/app/services/prestation.service';
 import {MatDialog} from '@angular/material/dialog';
 import { ConfirmationReservationDialogComponent } from 'src/app/dialog-components/confirmation-reservation-dialog/confirmation-reservation-dialog.component';
 import { ReservationSlotData } from 'src/app/models/reservation.model';
@@ -9,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Employe } from 'src/app/models/employe.model';
 import { AdministrationService } from 'src/app/services/administration.service';
 import { combineLatest } from 'rxjs/operators';
+import { Prestation } from 'src/app/models/prestation.model';
 
 @Component({
   selector: 'app-planning',
@@ -16,11 +16,11 @@ import { combineLatest } from 'rxjs/operators';
   styleUrls: ['./planning.component.scss']
 })
 export class PlanningComponent implements OnInit {
-  public massages = <Massage[]>[]
-  public massageSelected = <Massage>{}
+  public prestations = <Prestation[]>[]
+  public prestationSelected = <Prestation>{}
   public employes: Employe[] = []
   constructor(
-    private massageService : MassageService,
+    private prestationService : PrestationService,
     private dialog: MatDialog,
     private reservationService : ReservationService,
     private toastService : ToastrService,
@@ -31,32 +31,32 @@ export class PlanningComponent implements OnInit {
     this.administrationService.getEmployes().subscribe(employees => {
       this.employes = employees
     })
-    this.massageService.getAllMassages().subscribe((massages:Massage[]) => {
-      massages.forEach(massage => {
-        massage.image = `/assets/${massage.nom}.png`
+    this.prestationService.getAllPrestations().subscribe((prestations:Prestation[]) => {
+      prestations.forEach(prestation => {
+        prestation.image = `/assets/${prestation.nom}.png`
       });
-      this.massages = massages
+      this.prestations = prestations
     })
   }
 
-  selectMassage(massage: Massage){
-    this.massageSelected = massage
+  selectPrestation(prestation: Prestation){
+    this.prestationSelected = prestation
   }
 
-  getEmployeesMatchWithMassageSelected(): Employe[]{
+  getEmployeesMatchWithPrestationSelected(): Employe[]{
 
     return this.employes.filter(employe => employe.listeDesPrestations.some(prestation => {
-      if(prestation._id === this.massageSelected._id) return prestation.acquis
+      if(prestation._id === this.prestationSelected._id) return prestation.acquis
       return false
     }))
   }
 
-  bookMassage(reservation: ReservationSlotData){
+  bookPrestation(reservation: ReservationSlotData){
     const confirmDialog = this.dialog.open(ConfirmationReservationDialogComponent, {
       data: {
-        massage: this.massageSelected,
+        prestation: this.prestationSelected,
         reservation:reservation,
-        employeesAvailable : this.getEmployeesMatchWithMassageSelected()
+        employeesAvailable : this.getEmployeesMatchWithPrestationSelected()
       }
     });
     confirmDialog.afterClosed().subscribe(result => {
@@ -64,8 +64,8 @@ export class PlanningComponent implements OnInit {
         reservation.employeId = result.employee._id
         delete reservation.day
         delete reservation.slot
-        // combineLatest(this.reservationService.saveMassage(reservation), this.administrationService.addPrestationToEmploye({employeId : result.employee._id, prestationId: }))
-        this.reservationService.saveMassage(reservation).subscribe()
+        // combineLatest(this.reservationService.savePrestation(reservation), this.administrationService.addPrestationToEmploye({employeId : result.employee._id, prestationId: }))
+        this.reservationService.savePrestation(reservation).subscribe()
         this.toastService.success('Réservation enregistrée')
       }
     });

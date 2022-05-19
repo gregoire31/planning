@@ -6,7 +6,7 @@ reservationSchema = new mongoose.Schema({
     hourSlot: Number,
     isBooked: Boolean,
     idUser : String,
-    idMassage: String,
+    idPrestation: String,
     idSlot:String,
     idEmploye:String
     }]
@@ -26,7 +26,7 @@ async function saveReservation(reservation){
         daySlotsUpdated.daySlot.forEach(daySlot => {
             if(daySlot.idSlot === reservation.idSlot){
                 daySlot.isBooked = reservation.isBooked,
-                daySlot.idMassage =  reservation.idMassage,
+                daySlot.idPrestation =  reservation.idPrestation,
                 daySlot.idUser = reservation.idUser 
                 daySlot.idEmploye = reservation.employeId              
             }

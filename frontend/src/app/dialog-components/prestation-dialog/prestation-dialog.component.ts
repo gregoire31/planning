@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Prestation } from 'src/app/models/employe.model';
+import { Prestation } from 'src/app/models/prestation.model';
 
 @Component({
   selector: 'app-prestation-dialog',

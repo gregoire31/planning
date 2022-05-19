@@ -25,7 +25,7 @@ const io = require("socket.io")(server,{
 app.set('socketio', io);
 
 const users = require('./routes/users')
-const massages = require('./routes/massages')
+const prestations = require('./routes/prestations')
 const reservations = require('./routes/reservations')
 const employes = require('./routes/employes')
 
@@ -56,7 +56,7 @@ io.on('connection', (socket) => {
 
 //route
 app.use('/api/users', users);
-app.use('/api/massages',massages)
+app.use('/api/prestations',prestations)
 app.use('/api/reservations',reservations)
 app.use('/api/employes',employes)
 server.listen(parseInt(process.env.PORT), () => console.log(`listen on port ${process.env.PORT}`))

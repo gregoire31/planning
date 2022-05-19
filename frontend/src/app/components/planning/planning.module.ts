@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlanningComponent } from './planning.component';
-import { MassageService } from 'src/app/services/massage.service';
+import { PrestationService } from 'src/app/services/prestation.service';
 import { MatButtonModule } from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { CalendarModule } from '../calendar/calendar.module';
@@ -20,7 +20,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatDialogModule,
     MatSelectModule,FormsModule,ReactiveFormsModule
   ],
-  providers:[MassageService, SocketService],
+  providers:[PrestationService, SocketService],
   entryComponents: [ConfirmationReservationDialogComponent]
 })
 export class PlanningModule { }

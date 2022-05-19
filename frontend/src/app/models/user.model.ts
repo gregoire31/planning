@@ -7,5 +7,5 @@ export interface User {
   password: string;
   prenom: string;
   _id :string;
-  massageSelected?: string;
+  prestationSelected?: string;
 }

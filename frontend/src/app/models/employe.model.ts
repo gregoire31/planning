@@ -1,4 +1,4 @@
-import { Massage } from './massage.model';
+import { Prestation } from './prestation.model';
 
 export interface EmployeAbsence {
   id: string,
@@ -15,12 +15,10 @@ export interface Employe {
   jourTravaille: Array<string>;
   hasBeenUpdate?:boolean;
   absences : Array<Date>,
-  image?: any
+  image?: any;
+
 }
 
-export interface Prestation extends  Massage {
-  acquis:boolean
-}
 
 export interface data  {
   prestations:Array<Prestation>,

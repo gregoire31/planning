@@ -3,13 +3,13 @@ interface daySlot  {
   hourSlot: number,
   isBooked: boolean,
   idUser? : string,
-  idMassage?: string,
+  idPrestation?: string,
   litteralHour?:string
 }
 
 export interface Reservation {
   iduser : string,
-  idMassage : string,
+  idPrestation : string,
   day : string,
   daySlot: Array<daySlot>,
   _id: string
@@ -21,7 +21,7 @@ export interface dateBooking {
 }
 export interface ReservationSlotData {
   isBooked : boolean,
-  idMassage : string,
+  idPrestation : string,
   idUser : string,
   idSlot : string,
   idModel : string,

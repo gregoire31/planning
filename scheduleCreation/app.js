@@ -39,13 +39,13 @@ for(v = 0; v < 5; v++){
     }
     
     var jsonContent = JSON.stringify(creneauToRecord2);
-    
+    console.log(process.env.DATABASE_HOST)
     const mongooseCommand = `mongoimport --uri "mongodb://${process.env.DATABASE_HOST}" --db mongo-planning --collection ${nameOfMongoCollection} --drop --file exercise-data.json --jsonArray`
-    const mongooseImportMassages = `mongoimport --uri "mongodb://${process.env.DATABASE_HOST}" --db mongo-planning --collection massages --drop --file massages.json --jsonArray`
+    const mongooseImportPrestations = `mongoimport --uri "mongodb://${process.env.DATABASE_HOST}" --db mongo-planning --collection prestations --drop --file prestations.json --jsonArray`
     const mongooseImportEmployes = `mongoimport --uri "mongodb://${process.env.DATABASE_HOST}" --db mongo-planning --collection employes --drop --file employes.json --jsonArray`
     fs.writeFileSync("exercise-data.json", jsonContent)
-    shell.exec(mongooseImportMassages)
-    shell.exec(mongooseImportEmployes)
-    shell.exec(mongooseCommand)
+    shell.exec(mongooseImportPrestations)
+    // shell.exec(mongooseImportEmployes)
+    // shell.exec(mongooseCommand)
 
 }
