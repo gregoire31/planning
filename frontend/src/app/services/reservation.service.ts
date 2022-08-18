@@ -15,7 +15,7 @@ export class ReservationService {
     })
   }
 
-  savePrestation(param:ReservationSlotData){
+  saveReservation(param:ReservationSlotData){
     return this.http.post<Reservation>(`http://www.localhost:3000/api/reservations/reservations`,param);
   }
 

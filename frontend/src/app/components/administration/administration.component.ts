@@ -77,7 +77,6 @@ export class AdministrationComponent implements OnInit {
   selectFile(event:any, id?:string){
 
     const employeToUpdate = id ? this.findEmployeById(id) : this.employeEdit
-    console.log(employeToUpdate)
     if(event.target.files[0]){
       var self = this
       const imageBlob = event.target.files[0]

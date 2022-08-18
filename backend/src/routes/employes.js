@@ -1,4 +1,4 @@
-const {getAllEmployes, getEmploye, addEmploye, updateEmploye, updateImageEmploye, deleteEmployeById} = require('../models/employe')
+const {getAllEmployes, getEmploye, addEmploye, updateEmploye, updateImageEmploye, deleteEmployeById,addReservationToEmploye} = require('../models/employe')
 const express = require('express')
 const router = express.Router()
 
@@ -28,6 +28,12 @@ router.post('/updateEmploye', async(req,res) => {
 router.post('/updateImage', async(req,res) => {
     await updateImageEmploye(req.body)
     res.end()
+})
+
+router.post('/addReservationToEmploye', async(req,res) => {
+    const reservationEmploye = req.body
+    const employeUpdated = await addReservationToEmploye(reservationEmploye)
+    res.status(200).json(employeUpdated)
 })
 
 router.get('/deleteEmploye/:id', async(req,res) => {

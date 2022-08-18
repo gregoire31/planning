@@ -9,3 +9,8 @@ export interface User {
   _id :string;
   prestationSelected?: string;
 }
+
+export interface ReservationUser {
+  idUser : string;
+  idReservation: string
+}

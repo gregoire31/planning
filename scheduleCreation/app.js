@@ -45,7 +45,7 @@ for(v = 0; v < 5; v++){
     const mongooseImportEmployes = `mongoimport --uri "mongodb://${process.env.DATABASE_HOST}" --db mongo-planning --collection employes --drop --file employes.json --jsonArray`
     fs.writeFileSync("exercise-data.json", jsonContent)
     shell.exec(mongooseImportPrestations)
-    // shell.exec(mongooseImportEmployes)
-    // shell.exec(mongooseCommand)
+    shell.exec(mongooseImportEmployes)
+    shell.exec(mongooseCommand)
 
 }

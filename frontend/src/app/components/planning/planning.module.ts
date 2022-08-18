@@ -10,6 +10,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { ConfirmationReservationDialogComponent } from 'src/app/dialog-components/confirmation-reservation-dialog/confirmation-reservation-dialog.component';
 import {MatSelectModule} from '@angular/material/select';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { UserService } from 'src/app/services/user.service';
 @NgModule({
   declarations: [PlanningComponent, ConfirmationReservationDialogComponent],
   imports: [
@@ -20,7 +21,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatDialogModule,
     MatSelectModule,FormsModule,ReactiveFormsModule
   ],
-  providers:[PrestationService, SocketService],
+  providers:[PrestationService, SocketService, UserService],
   entryComponents: [ConfirmationReservationDialogComponent]
 })
 export class PlanningModule { }

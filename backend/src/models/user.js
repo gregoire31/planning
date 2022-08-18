@@ -40,6 +40,9 @@ const userSchema = new mongoose.Schema({
         maxLength:1024
     },
     date: { type: Date, default : Date.now() },
+    reservationList: [{
+        type: String
+    }]
 })
 
 const User = mongoose.model('User',userSchema);
@@ -60,6 +63,13 @@ async function getUserByEmail(email){
     return User.findOne({
         email:email
     })
+}
+
+async function addReservationToUser(reservationUser){   
+    const {idUser, idReservation} = reservationUser
+    const user = await User.findOne({_id:idUser})
+    user.reservationList = [...user.reservationList,idReservation]
+    return User.findByIdAndUpdate(idUser, user , { new: true })
 }
 
 async function signUp(user){
@@ -89,3 +99,4 @@ exports.User = User
 exports.validate = validateUser
 exports.signUp = signUp
 exports.getUserByEmail = getUserByEmail
+exports.addReservationToUser = addReservationToUser

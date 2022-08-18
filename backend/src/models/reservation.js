@@ -17,9 +17,9 @@ async function getAllReservations (date){
 }
 
 async function saveReservation(reservation){
-    const idModel = reservation.idModel
+    const idReservation = reservation.idReservation
     const Reservation = mongoose.model(reservation.dateSchema, reservationSchema);
-    const daySlots = await Reservation.findById(idModel)
+    const daySlots = await Reservation.findById(idReservation)
 
     let daySlotsUpdated = JSON.parse(JSON.stringify(daySlots))
         
@@ -31,7 +31,7 @@ async function saveReservation(reservation){
                 daySlot.idEmploye = reservation.employeId              
             }
         })
-    return Reservation.findByIdAndUpdate(idModel, daySlotsUpdated, {new: true});
+    return Reservation.findByIdAndUpdate(idReservation, daySlotsUpdated, {new: true});
 
 }
 
