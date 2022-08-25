@@ -20,7 +20,7 @@ async function saveReservation(reservation){
     const idReservation = reservation.idReservation
     const Reservation = mongoose.model(reservation.dateSchema, reservationSchema);
     const daySlots = await Reservation.findById(idReservation)
-
+    
     let daySlotsUpdated = JSON.parse(JSON.stringify(daySlots))
         
         daySlotsUpdated.daySlot.forEach(daySlot => {

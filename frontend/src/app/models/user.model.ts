@@ -8,6 +8,7 @@ export interface User {
   prenom: string;
   _id :string;
   prestationSelected?: string;
+  reservationList? : string[]
 }
 
 export interface ReservationUser {

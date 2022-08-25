@@ -10,6 +10,7 @@ import { AdministrationService } from 'src/app/services/administration.service';
 import { Prestation } from 'src/app/models/prestation.model';
 import { UserService } from 'src/app/services/user.service';
 import { combineLatest } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-planning',
@@ -26,7 +27,8 @@ export class PlanningComponent implements OnInit {
     private reservationService : ReservationService,
     private toastService : ToastrService,
     private administrationService : AdministrationService,
-    private  userService : UserService
+    private  userService : UserService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -66,11 +68,13 @@ export class PlanningComponent implements OnInit {
         reservation.employeId = result.employee._id
         delete reservation.day
         delete reservation.slot
+        this.reservationService.saveReservation(reservation).subscribe()
         combineLatest(
-        this.reservationService.saveReservation(reservation),
         this.administrationService.addReservationToEmploye({idEmploye : result.employee._id, idReservation : reservation.idReservation}),
         this.userService.addReservationToUser({idReservation: reservation.idReservation, idUser : reservation.idUser}))
-        .subscribe()
+        .subscribe(([employe,user]) => {
+          this.authService.updateUser(user)
+        })
         this.toastService.success('Réservation enregistrée')
       }
     });

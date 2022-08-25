@@ -11,10 +11,12 @@ import { AuthInterceptorService } from 'src/_helpers/auth-interceptor.service';
 import { PlanningModule } from './components/planning/planning.module';
 import { MenuModule } from './components/menu/menu.module';
 import { AdministrationModule } from './components/administration/administration.module';
-import {MatSelectModule} from '@angular/material/select'
+import {MatSelectModule} from '@angular/material/select';
+import { ReservationListUserComponent } from './components/reservation-list-user/reservation-list-user.component';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ReservationListUserComponent
   ],
   imports: [
     BrowserModule,

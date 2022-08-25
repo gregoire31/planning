@@ -13,6 +13,11 @@ export class AuthService {
     return this.user
   }
 
+  updateUser(user : User){
+    this.user.next(user)
+    console.log(this.user.value)
+  }
+
   signIn(credentials:any){
     this.http.post('http://www.localhost:3000/api/users/signIn', credentials).subscribe((res:any) => {
       if (res['token']) {
