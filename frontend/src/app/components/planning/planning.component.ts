@@ -69,12 +69,17 @@ export class PlanningComponent implements OnInit {
         delete reservation.day
         delete reservation.slot
         this.reservationService.saveReservation(reservation).subscribe()
+        // combineLatest(
+        // this.administrationService.addReservationToEmploye({idEmploye : result.employee._id, idReservation : reservation.idReservation}),
+        // this.userService.addReservationToUser({idReservation: reservation.idReservation, idUser : reservation.idUser}))
+        // .subscribe(([employe,user]) => {
+        //   this.authService.updateUser(user)
+        // })
         combineLatest(
+        this.reservationService.saveReservation(reservation),
         this.administrationService.addReservationToEmploye({idEmploye : result.employee._id, idReservation : reservation.idReservation}),
         this.userService.addReservationToUser({idReservation: reservation.idReservation, idUser : reservation.idUser}))
-        .subscribe(([employe,user]) => {
-          this.authService.updateUser(user)
-        })
+        .subscribe()
         this.toastService.success('Réservation enregistrée')
       }
     });

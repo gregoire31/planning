@@ -15,3 +15,8 @@ export interface ReservationUser {
   idUser : string;
   idReservation: string
 }
+
+export interface ReservationUser {
+  idUser : string;
+  idReservation: string
+}
