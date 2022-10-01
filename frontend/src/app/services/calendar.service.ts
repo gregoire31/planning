@@ -1,6 +1,4 @@
 import { ElementRef, Injectable, Renderer2 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Reservation1 } from '../models/reservation.model';
 import { ReservationService } from './reservation.service';
 
