@@ -1,1 +1,97 @@
-<p>reservation-list-user works!</p>
+<table *ngIf="displayPassedReservation.length > 0" mat-table [dataSource]="displayPassedReservation" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="day">
+    <th mat-header-cell *matHeaderCellDef> jour </th>
+    <td mat-cell *matCellDef="let element"> {{element.day}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="slot">
+    <th mat-header-cell *matHeaderCellDef> heure de réservation </th>
+    <td mat-cell *matCellDef="let element"> {{element.slot}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="employeName">
+    <th mat-header-cell *matHeaderCellDef> Nom de l'employé </th>
+    <td mat-cell *matCellDef="let element"> {{element.employeName}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="prestationName">
+    <th mat-header-cell *matHeaderCellDef> nom de la prestation </th>
+    <td mat-cell *matCellDef="let element"> {{element.prestationName}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="prestationPrice">
+    <th mat-header-cell *matHeaderCellDef> prix de la prestation </th>
+    <td mat-cell *matCellDef="let element"> {{element.prestationPrice}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="prestationDuration">
+    <th mat-header-cell *matHeaderCellDef> durée de la prestation </th>
+    <td mat-cell *matCellDef="let element"> {{element.prestationDuration}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedPassedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedPassedColumns;"></tr>
+</table>
+
+<table *ngIf="displayFutureReservation.length > 0" mat-table [dataSource]="displayFutureReservation" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="day">
+    <th mat-header-cell *matHeaderCellDef> jour </th>
+    <td mat-cell *matCellDef="let element"> {{element.day}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="slot">
+    <th mat-header-cell *matHeaderCellDef> heure de réservation </th>
+    <td mat-cell *matCellDef="let element"> {{element.slot}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="employeName">
+    <th mat-header-cell *matHeaderCellDef> Nom de l'employé </th>
+    <td mat-cell *matCellDef="let element"> {{element.employeName}} </td>
+  </ng-container>
+
+  <!-- Prestation Name Column -->
+  <ng-container matColumnDef="prestationName">
+    <th mat-header-cell *matHeaderCellDef> nom de la prestation </th>
+    <td mat-cell *matCellDef="let element"> {{element.prestationName}} </td>
+  </ng-container>
+
+  <!-- Prestation Price Column -->
+  <ng-container matColumnDef="prestationPrice">
+    <th mat-header-cell *matHeaderCellDef> prix de la prestation </th>
+    <td mat-cell *matCellDef="let element"> {{element.prestationPrice}} </td>
+  </ng-container>
+
+  <!-- Prestation Duration Column -->
+  <ng-container matColumnDef="prestationDuration">
+    <th mat-header-cell *matHeaderCellDef> durée de la prestation </th>
+    <td mat-cell *matCellDef="let element"> {{element.prestationDuration}} </td>
+  </ng-container>
+
+  <!-- Action Column -->
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef> Action </th>
+    <td mat-cell *matCellDef="let element">
+      <mat-icon style="cursor: pointer;" (click)="removeReservation(element)">delete</mat-icon>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedFutureColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedFutureColumns;"></tr>
+</table>

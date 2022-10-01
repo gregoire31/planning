@@ -12,11 +12,10 @@ import { PlanningModule } from './components/planning/planning.module';
 import { MenuModule } from './components/menu/menu.module';
 import { AdministrationModule } from './components/administration/administration.module';
 import {MatSelectModule} from '@angular/material/select';
-import { ReservationListUserComponent } from './components/reservation-list-user/reservation-list-user.component';
+import { reservationListModule } from './components/reservation-list-user/reservation-list.module';
 @NgModule({
   declarations: [
-    AppComponent,
-    ReservationListUserComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -24,10 +23,12 @@ import { ReservationListUserComponent } from './components/reservation-list-user
     HttpClientModule,
     LoginModule,
     PlanningModule,
+    reservationListModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     MenuModule,
-    AdministrationModule,MatSelectModule
+    AdministrationModule,
+    MatSelectModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
   {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],

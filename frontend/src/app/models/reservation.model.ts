@@ -30,3 +30,15 @@ export interface ReservationSlotData {
   slot?: string,
   employeId? : string
 }
+
+
+export interface Reservation1 {
+  date:Date,
+  _id? : string,
+  day : string,
+  slot: number,
+  id_prestation: string,
+  id_employe: string,
+  id_user: string
+
+}

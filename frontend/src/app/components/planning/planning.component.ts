@@ -21,6 +21,7 @@ export class PlanningComponent implements OnInit {
   public prestations = <Prestation[]>[]
   public prestationSelected = <Prestation>{}
   public employes: Employe[] = []
+  public idEmploye: any
   constructor(
     private prestationService : PrestationService,
     private dialog: MatDialog,
@@ -41,6 +42,10 @@ export class PlanningComponent implements OnInit {
       });
       this.prestations = prestations
     })
+  }
+
+  selectEmploye(employeId:string){
+    this.idEmploye = employeId
   }
 
   selectPrestation(prestation: Prestation){

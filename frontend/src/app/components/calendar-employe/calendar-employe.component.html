@@ -1,0 +1,33 @@
+<h1 style="text-align: center;"> {{employeSelected.nom}}</h1>
+
+<div style="display: flex; ">
+
+  <div style="display: flex;flex-direction: column; width: 10%; text-align: center; margin-top: 20px;">
+    <div *ngFor="let hour of hoursRange" style=" height: 80px;">
+      {{hour}} h
+    </div>
+  </div>
+  <div  style="display: flex;flex-direction: wrap; width: 90%; margin-top:-10px; overflow-x: auto; overflow-y: hidden; overflow-x: auto;">
+    <div *ngFor="let day of daysOfTheWeek; let index = index" style="display: flex;flex-direction: column;justify-content: space-between; width: 50%; position: relative;">
+      <div style="text-align: center; margin-bottom: 20px;">{{day.literalDay}} {{day.day}}</div>
+      <div #planning class="employeCardReservations" [id]="'employe'+index"  style="min-width: 30em">
+        <div *ngFor="let hour of hoursRange" style="height: 80px; width: 90%" (click)="bookSlot(index, day,$event)">
+          <div [id]="hour+'.00'" style="border-top:1px solid grey; height: 19px">
+
+          </div>
+          <div [id]="hour+'.25'" style="border-top:1px dashed grey; height: 19px">
+
+          </div>
+          <div [id]="hour+'.50'" style=" border-top:1px dashed grey; height: 19px">
+
+          </div>
+          <div [id]="hour+'.75'" style=" border-top:1px dashed grey; height: 19px">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div style="position: absolute; top:80px; background-color:red; width: 70%; margin-left:5%; height: 80px;"></div> -->
+  </div>
+<!-- </div> -->

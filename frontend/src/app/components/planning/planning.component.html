@@ -16,5 +16,6 @@
     </mat-card-actions>
   </mat-card>
 </div>
+<app-calendar-employe *ngIf="idEmploye" [prestationSelected]="prestationSelected" [idEmploye]="idEmploye" [numberOfDays]=6></app-calendar-employe>
+<app-calendar *ngIf="!idEmploye" [prestationSelected]="prestationSelected" (prestationEvent)="bookPrestation($event)" (chooseEmploye)="selectEmploye($event)"></app-calendar>
 
-<app-calendar [prestationSelected]="prestationSelected" (prestationEvent)="bookPrestation($event)"></app-calendar>

@@ -121,6 +121,9 @@ export class AdministrationService {
     return this.http.post<void>('http://www.localhost:3000/api/employes/updateImage',imageEmployeData)
   }
 
+  getEmploye(employeId:string){
+    return this.http.get<Employe>(`http://www.localhost:3000/api/employes/employe/${employeId}`)
+  }
 
   getEmployes(){
     return this.http.get<Employe[]>('http://www.localhost:3000/api/employes/employes')

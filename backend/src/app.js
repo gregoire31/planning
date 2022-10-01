@@ -27,6 +27,7 @@ app.set('socketio', io);
 const users = require('./routes/users')
 const prestations = require('./routes/prestations')
 const reservations = require('./routes/reservations')
+const reservations1 = require('./routes/reservations1')
 const employes = require('./routes/employes')
 
 const secret = process.env.SECRET_TOKEN;
@@ -58,5 +59,6 @@ io.on('connection', (socket) => {
 app.use('/api/users', users);
 app.use('/api/prestations',prestations)
 app.use('/api/reservations',reservations)
+app.use('/api/reservations1',reservations1)
 app.use('/api/employes',employes)
 server.listen(parseInt(process.env.PORT), () => console.log(`listen on port ${process.env.PORT}`))

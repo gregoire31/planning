@@ -11,6 +11,7 @@ import { ConfirmationReservationDialogComponent } from 'src/app/dialog-component
 import {MatSelectModule} from '@angular/material/select';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
+import { CalendarEmployeModule } from '../calendar-employe/calendar-employe.module';
 @NgModule({
   declarations: [PlanningComponent, ConfirmationReservationDialogComponent],
   imports: [
@@ -18,6 +19,7 @@ import { UserService } from 'src/app/services/user.service';
     MatButtonModule,
     MatCardModule,
     CalendarModule,
+    CalendarEmployeModule,
     MatDialogModule,
     MatSelectModule,FormsModule,ReactiveFormsModule
   ],

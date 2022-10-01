@@ -1,10 +1,10 @@
-<div class="headTable">
+<!-- <div class="headTable">
   <mat-icon (click)="decrementWeek()" class="pointer">chevron_left</mat-icon>
-  <span> Semaine du  {{ currentMondayFrench }}</span>
+  <span> Semaine du {{ currentMondayFrench }}</span>
   <mat-icon (click)="incrementWeek()" class="pointer">chevron_right</mat-icon>
-</div>
+</div> -->
 
-<div>
+<!-- <div>
   <div style="display: flex; justify-content: space-between;">
     <div style="text-align: center; border: 2px solid grey; width: 100%;" *ngFor="let reservation of schedule">
       <div style="padding: 2em;">
@@ -14,5 +14,42 @@
         {{day.litteralHour}}
       </div>
     </div>
+  </div>
+</div> -->
+
+
+
+<div style="display: flex; ">
+
+  <mat-card class="demo-inline-calendar-card">
+    <mat-calendar [(selected)]="selectedDate" (selectedChange)="fetchReservationAndGenerateSlot($event)" [minDate]="actualDay"></mat-calendar>
+  </mat-card>
+
+  <div style="display: flex;flex-direction: column; width: 10%; text-align: center; margin-top: 20px;">
+    <div *ngFor="let hour of hoursRange" style=" height: 80px;">
+      {{hour}} h
+    </div>
+  </div>
+  <div  style="display: flex;flex-direction: wrap; width: 90%; margin-top:-10px; overflow-y: hidden; overflow-x: auto;">
+    <div *ngFor="let employe of employees; let index = index" style="display: flex;flex-direction: column;justify-content: space-between; width: 50%; position: relative; ">
+      <div style="text-align: center; margin-bottom: 20px;" (click)="selectEmploye(employe._id)"> {{employe.nom}}</div>
+      <div #planning class="employeCardReservations" [id]="'employe'+index" style="min-width: 20em">
+        <div *ngFor="let hour of hoursRange" style="height: 80px; width: 90%" (click)="bookSlot(index, employe._id, $event)">
+          <div [id]="hour+'.00'" style="border-top:1px solid grey; height: 19px">
+
+          </div>
+          <div [id]="hour+'.25'" style="border-top:1px dashed grey; height: 19px">
+
+          </div>
+          <div [id]="hour+'.50'" style=" border-top:1px dashed grey; height: 19px">
+
+          </div>
+          <div [id]="hour+'.75'" style=" border-top:1px dashed grey; height: 19px">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div style="position: absolute; top:80px; background-color:red; width: 70%; margin-left:5%; height: 80px;"></div> -->
   </div>
 </div>

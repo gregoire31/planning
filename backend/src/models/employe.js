@@ -28,12 +28,12 @@ async function getEmploye(id){
     return Employe.findById(id)
 }
 
-async function addReservationToEmploye(prestationEmploye){
-    const {idEmploye, idReservation} = prestationEmploye
-    const employe = await Employe.findOne({_id:idEmploye})
-    employe.reservationList = [...employe.reservationList,idReservation]
-    return Employe.findByIdAndUpdate(idEmploye, employe , { new: true })
-}
+// async function addReservationToEmploye(prestationEmploye){
+//     const {idEmploye, idReservation} = prestationEmploye
+//     const employe = await Employe.findOne({_id:idEmploye})
+//     employe.reservationList = [...employe.reservationList,idReservation]
+//     return Employe.findByIdAndUpdate(idEmploye, employe , { new: true })
+// }
 
 async function updateEmploye(absenceEmploye){
     const {_id, absences, listeDesPrestations} = absenceEmploye
@@ -98,4 +98,4 @@ exports.getEmploye = getEmploye
 exports.updateEmploye = updateEmploye
 exports.updateImageEmploye = updateImageEmploye
 exports.deleteEmployeById = deleteEmployeById
-exports.addReservationToEmploye = addReservationToEmploye
+// exports.addReservationToEmploye = addReservationToEmploye
