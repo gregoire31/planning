@@ -13,17 +13,16 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 import { CalendarEmployeModule } from '../calendar-employe/calendar-employe.module';
 @NgModule({
-  declarations: [PlanningComponent, ConfirmationReservationDialogComponent],
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatCardModule,
-    CalendarModule,
-    CalendarEmployeModule,
-    MatDialogModule,
-    MatSelectModule,FormsModule,ReactiveFormsModule
-  ],
-  providers:[PrestationService, SocketService, UserService],
-  entryComponents: [ConfirmationReservationDialogComponent]
+    declarations: [PlanningComponent, ConfirmationReservationDialogComponent],
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatCardModule,
+        CalendarModule,
+        CalendarEmployeModule,
+        MatDialogModule,
+        MatSelectModule, FormsModule, ReactiveFormsModule
+    ],
+    providers: [PrestationService, SocketService, UserService]
 })
 export class PlanningModule { }
