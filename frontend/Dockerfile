@@ -1,6 +1,6 @@
 # Stage 1
 # Create image based on the official Node 12 image from dockerhub
-FROM node:12.18.4-alpine as node
+FROM node:14.21-alpine as node
 
 # Create a directory where our app will be placed
 RUN mkdir -p /usr/src/app

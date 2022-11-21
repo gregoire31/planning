@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 @Component({
@@ -24,7 +24,7 @@ export class LoginComponent {
 
   public logginPage : boolean = true
 
-  constructor(private fb: FormBuilder, private authService : AuthService, private toastService : ToastrService) { }
+  constructor(private fb: UntypedFormBuilder, private authService : AuthService, private toastService : ToastrService) { }
 
   toggleLogginPageButton(){
     this.logginPage = !this.logginPage
